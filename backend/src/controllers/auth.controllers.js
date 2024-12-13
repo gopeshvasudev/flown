@@ -8,10 +8,12 @@ const signupHandler = async (req, res) => {
     const { username, email, password, age } = req.body;
 
     // checking if the user already exists or not
-    const user = await userModel.findOne({ email });
+    const user = await userModel.findOne({
+      $or: [{ email }, { username }],
+    });
 
     if (user) {
-      throw new HttpError(409, "User already exist!");
+      throw new HttpError(409, "User already exist");
     }
 
     //Encrypting the password
@@ -36,7 +38,7 @@ const signupHandler = async (req, res) => {
 
     //Setting refresh token in a cookie and sending access token with a response
     return res
-      .status(200)
+      .status(201)
       .cookie("token", refreshToken, {
         httpOnly: true,
         maxAge: 1000 * 60 * 60 * 24 * 30,
@@ -56,4 +58,51 @@ const signupHandler = async (req, res) => {
   }
 };
 
-export { signupHandler };
+const signinHandler = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    //Checking if the user exist or not
+    const user = await userModel.findOne({ email });
+
+    if (!user) {
+      throw new HttpError(404, "Invalid credentials");
+    }
+
+    //Checking if the password is correct or not
+    const isValidPassword = user.validatePassword(password);
+
+    if (!isValidPassword) {
+      throw new HttpError(401, "Invalid credentials");
+    }
+
+    //Creating access and refresh tokens
+    const refreshToken = createRefreshToken({ _id: user._id });
+    const accessToken = createAccessToken({
+      _id: user._id,
+      username: user.username,
+      email: user.email,
+    });
+
+    return res
+      .status(200)
+      .cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        maxAge: 1000 * 60 * 60 * 24 * 30,
+      })
+      .json({
+        success: true,
+        message: "Login successful",
+        accessToken,
+      });
+  } catch (error) {
+    console.log("Sign in error: ", error.message);
+
+    return res.status(error.statusCode || 500).json({
+      success: false,
+      message: error.message || "Internal server error",
+    });
+  }
+};
+
+export { signupHandler, signinHandler };
