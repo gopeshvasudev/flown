@@ -1,6 +1,7 @@
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 import userModel from "../models/user.models.js";
 import { createAccessToken, createRefreshToken } from "../utils/tokens.js";
-import bcrypt from "bcrypt";
 import HttpError from "../utils/errorClass.js";
 
 const signupHandler = async (req, res) => {
@@ -70,7 +71,7 @@ const signinHandler = async (req, res) => {
     }
 
     //Checking if the password is correct or not
-    const isValidPassword = user.validatePassword(password);
+    const isValidPassword = await user.validatePassword(password);
 
     if (!isValidPassword) {
       throw new HttpError(401, "Invalid credentials");
@@ -105,4 +106,45 @@ const signinHandler = async (req, res) => {
   }
 };
 
-export { signupHandler, signinHandler };
+const refreshTokenHandler = async (req, res) => {
+  try {
+    const { refreshToken } = req.cookies;
+
+    //Checking if the refresh token exist or not in the cookie
+    if (!refreshToken) {
+      throw new HttpError(404, "Token not found");
+    }
+
+    //Verifying the token
+    const decodedData = jwt.verify(refreshToken, process.env.JWT_SECRET_KEY);
+
+    if (!decodedData) {
+      throw new HttpError(401, "Invalid token");
+    }
+
+    //If the token is verified then fetch the user
+    const user = await userModel.findById(decodedData._id);
+
+    //creating a new access token and sending it in the response
+    const accessToken = createAccessToken({
+      _id: user._id,
+      username: user.username,
+      email: user.email,
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "New access token created",
+      accessToken,
+    });
+  } catch (error) {
+    console.log("Refresh token error: ", error.message);
+
+    return res.status(error.statusCode || 500).json({
+      success: false,
+      message: error.message || "Internal server error",
+    });
+  }
+};
+
+export { signupHandler, signinHandler, refreshTokenHandler };

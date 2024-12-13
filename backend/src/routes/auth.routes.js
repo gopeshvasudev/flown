@@ -1,9 +1,9 @@
 import express from "express";
 import {
+  refreshTokenHandler,
   signinHandler,
   signupHandler,
 } from "../controllers/auth.controllers.js";
-import HttpError from "../utils/errorClass.js";
 
 const router = express.Router();
 
@@ -12,5 +12,7 @@ router.post("/signup", signupHandler);
 
 //Signin route
 router.post("/signin", signinHandler);
+
+router.post("/refresh-token", refreshTokenHandler);
 
 export default router;
