@@ -1,6 +1,7 @@
 import userModel from "../models/user.models.js";
 import { createAccessToken, createRefreshToken } from "../utils/tokens.js";
 import bcrypt from "bcrypt";
+import HttpError from "../utils/errorClass.js";
 
 const signupHandler = async (req, res) => {
   try {
@@ -10,10 +11,7 @@ const signupHandler = async (req, res) => {
     const user = await userModel.findOne({ email });
 
     if (user) {
-      return res.status(409).json({
-        success: false,
-        message: "User exists already",
-      });
+      throw new HttpError(409, "User already exist!");
     }
 
     //Encrypting the password
@@ -39,7 +37,7 @@ const signupHandler = async (req, res) => {
     //Setting refresh token in a cookie and sending access token with a response
     return res
       .status(200)
-      .cookie("refreshToken", refreshToken, {
+      .cookie("token", refreshToken, {
         httpOnly: true,
         maxAge: 1000 * 60 * 60 * 24 * 30,
       })
@@ -51,9 +49,9 @@ const signupHandler = async (req, res) => {
   } catch (error) {
     console.log("Sign up error: ", error.message);
 
-    return res.status(500).json({
+    return res.status(error.statusCode || 500).json({
       success: false,
-      message: "Internal server error",
+      message: error.message || "Internal server error",
     });
   }
 };
