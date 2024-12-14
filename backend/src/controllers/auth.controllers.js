@@ -3,10 +3,13 @@ import jwt from "jsonwebtoken";
 import userModel from "../models/user.models.js";
 import { createAccessToken, createRefreshToken } from "../utils/tokens.js";
 import HttpError from "../utils/errorClass.js";
+import { validateSignupData } from "../utils/validation.js";
 
 const signupHandler = async (req, res) => {
   try {
-    const { username, email, password, age } = req.body;
+    validateSignupData(req);
+
+    const { username, email, password, age, gender } = req.body;
 
     // checking if the user already exists or not
     const user = await userModel.findOne({
@@ -14,7 +17,7 @@ const signupHandler = async (req, res) => {
     });
 
     if (user) {
-      throw new HttpError(409, "User already exist");
+      throw new HttpError(400, "User already exist");
     }
 
     //Encrypting the password
@@ -27,6 +30,7 @@ const signupHandler = async (req, res) => {
       email,
       password: hashedPassword,
       age,
+      gender,
     });
 
     // Creating refresh and access token
@@ -34,13 +38,12 @@ const signupHandler = async (req, res) => {
     const accessToken = createAccessToken({
       _id: newUser._id,
       email: newUser.email,
-      username: newUser.username,
     });
 
     //Setting refresh token in a cookie and sending access token with a response
     return res
       .status(201)
-      .cookie("token", refreshToken, {
+      .cookie("refreshToken", refreshToken, {
         httpOnly: true,
         maxAge: 1000 * 60 * 60 * 24 * 30,
       })
@@ -81,7 +84,6 @@ const signinHandler = async (req, res) => {
     const refreshToken = createRefreshToken({ _id: user._id });
     const accessToken = createAccessToken({
       _id: user._id,
-      username: user.username,
       email: user.email,
     });
 
