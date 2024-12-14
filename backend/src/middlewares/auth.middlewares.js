@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import HttpError from "../utils/errorClass.js";
+import userModel from "../models/user.models.js";
 
 const authenticateUser = async (req, res, next) => {
   try {
@@ -21,7 +22,13 @@ const authenticateUser = async (req, res, next) => {
       throw new HttpError(403, "Invalid token");
     }
 
-    req.user = decodedData;
+    const user = await userModel.findById(decodedData._id).select("-password");
+
+    if (!user) {
+      throw new HttpError(404, "User not found");
+    }
+
+    req.user = user;
     next();
   } catch (error) {
     console.log(`Authentication middleware error: ${error.message}`);
