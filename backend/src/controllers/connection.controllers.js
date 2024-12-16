@@ -1,70 +1,72 @@
-import HttpError from "../utils/errorClass.js ";
+import HttpError from "../utils/errorClass.js";
 import userModel from "../models/user.models.js";
 import connectionModel from "../models/connection.models.js";
 
 const sendConnectionRequestHandler = async (req, res) => {
   try {
-    const fromUser = req.user._id;
-    const { connectionWhomToSend } = req.body;
-    const allowedOptions = ["male", "female", "both"];
+    const user = req.user; // Current user
+    const { _id, genderPreference, agePreference } = user;
+    const { letterMessage } = req.body;
 
-    // Validate connectionWhomToSend
-    if (!allowedOptions.includes(connectionWhomToSend)) {
-      throw new HttpError(
-        400,
-        "Only 'male', 'female', or 'both' are allowed as options."
-      );
+    // 1. Validate genderPreference
+    if (!["male", "female", "both"].includes(genderPreference)) {
+      throw new HttpError(400, "Invalid gender preference");
     }
 
-    let genderFilter = {};
-
-    // Build gender filter based on input
-    if (connectionWhomToSend === "male") {
-      genderFilter = { gender: { $in: ["male", "others"] } };
-    } else if (connectionWhomToSend === "female") {
-      genderFilter = { gender: { $in: ["female", "others"] } };
-    } else if (connectionWhomToSend === "both") {
-      genderFilter = {}; // No filter for "both" - include all users
+    // 2. Validate agePreference
+    if (!agePreference || !agePreference.fromAge || !agePreference.toAge) {
+      throw new HttpError(400, "Invalid age preference");
     }
 
-    // Find a random user based on the filter
-    const users = await userModel.aggregate([
-      { $match: genderFilter }, // Apply filter (empty object does nothing for "both")
-      { $sample: { size: 1 } }, // Random sampling using MongoDB aggregation
+    if (!letterMessage) {
+      throw new HttpError(401, "Message must not be empty");
+    }
+
+    // 3. Aggregate to find matching users
+    const filteredUsers = await userModel.aggregate([
+      {
+        $match: {
+          _id: { $ne: _id }, // Exclude current user
+          age: { $gte: agePreference.fromAge, $lte: agePreference.toAge }, // Age range filter
+          $or: [
+            { gender: genderPreference }, // Match current user's gender preference
+            { genderPreference: "both" }, // Accept users open to all genders
+          ],
+        },
+      },
     ]);
 
-    if (users.length === 0) {
-      throw new HttpError(404, "No users available for connection.");
+    // 4. Handle case where no users are found
+    if (filteredUsers.length === 0) {
+      throw new HttpError(404, "No suitable users found for connection.");
     }
 
-    const toUser = users[0]._id;
+    // Pick the first user for simplicity (you can add logic to randomize or pick best match)
+    const toUser = filteredUsers[0]._id;
 
-    if (Object.toString(toUser) === Object.toString(fromUser)) {
-      throw new HttpError(400, "This user seems to be you");
-    }
-
-    // Check if a connection already exists
+    // 5. Check if a connection already exists
     const existingConnection = await connectionModel.findOne({
       $or: [
-        { fromUser, toUser },
-        { fromUser: toUser, toUser: fromUser },
+        { fromUser: _id, toUser },
+        { fromUser: toUser, toUser: _id },
       ],
     });
 
     if (existingConnection) {
-      throw new HttpError(400, "Connection already exists.");
+      throw new HttpError(400, "Connection request already sent.");
     }
 
-    // Create a new connection request
-    await connectionModel.create({
-      fromUser,
-      toUser,
-      status: "send",
+    // 6. Create a connection request
+    const newConnection = await connectionModel.create({
+      fromUser: _id,
+      toUser: toUser,
+      status: "send", // Initial status
     });
 
-    return res.status(201).json({
+    return res.status(200).json({
       success: true,
-      message: "Request sent successfully.",
+      message: "Connection request sent successfully.",
+      connection: newConnection,
     });
   } catch (error) {
     console.error("Send connection request error:", error.message);

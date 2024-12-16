@@ -6,20 +6,31 @@ const connectionSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
+
     toUser: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
+
     status: {
       type: "String",
       enum: {
         values: ["send", "accepted", "rejected"],
-        message: "Invalid status type",
+        message: "Status must be 'send', 'accepted', or 'rejected'.",
       },
+    },
+
+    letterMessage: {
+      type: String,
+      required: true,
+      minLength: 30,
+      maxLength: 1111,
     },
   },
   { timestamps: true }
 );
+
+connectionSchema.index({ fromUser: 1, toUser: 1 });
 
 const Connection = mongoose.model("Connection", connectionSchema);
 export default Connection;

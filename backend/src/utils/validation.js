@@ -46,21 +46,23 @@ const validateSignupData = (req) => {
   }
 
   // Validate gender (optional example)
-  const validGenders = ["male", "female", "other"];
+  const validGenders = ["male", "female", "others"];
   if (gender && !validGenders.includes(gender.toLowerCase())) {
     throw new HttpError(400, "Please enter a valid gender");
   }
 };
 
 const validateProfileEditData = (req) => {
-  const { photoUrl, interests } = req.body;
+  const { photoUrl, interests, genderPreference, agePreference } = req.body;
+  const { age } = req.user;
 
   const sanitizedFields = [
     "nickName",
     "bio",
     "photoUrl",
     "interests",
-    "isUsernameUpdatedOnce",
+    "genderPreference",
+    "agePreference",
   ];
 
   //Sanitizing the data
@@ -71,13 +73,49 @@ const validateProfileEditData = (req) => {
   });
 
   //Profile photo validation
-  if (!validator.isURL(photoUrl)) {
-    throw new HttpError(400, "Please upload a valid image");
+  if (
+    !validator.isURL(photoUrl, {
+      protocols: ["http", "https"],
+      require_protocol: true,
+    })
+  ) {
+    throw new HttpError(
+      400,
+      "Please upload a valid image with http/https URL."
+    );
   }
 
   //Interests length validation
   if (interests.length > 5) {
     throw new HttpError(400, "Only five interests can add");
+  }
+
+  //Gender preference validation
+  if (!["male", "female", "both"].includes(genderPreference)) {
+    throw new HttpError(
+      400,
+      "Only 'male', 'female', 'both' are allowed as gender preference"
+    );
+  }
+
+  //Age preference validation
+  if (!agePreference.fromAge || !agePreference.toAge) {
+    throw new HttpError(400, "From and To Age are required");
+  }
+  if (age >= 18) {
+    if (agePreference.fromAge < 18 || agePreference.toAge < 18) {
+      throw new HttpError(400, "Age preferences must be between 18");
+    }
+  } else {
+    if (
+      (agePreference.fromAge < 13 ||
+      agePreference.fromAge > 17) 
+      ||
+      (agePreference.toAge < 13 ||
+      agePreference.toAge > 17)
+    ) {
+      throw new HttpError(400, "Age preference must be between 13 to 17");
+    }
   }
 };
 

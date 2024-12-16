@@ -78,10 +78,33 @@ const userSchema = new mongoose.Schema(
       },
     },
 
-    interests: [],
+    interests: {
+      type: [String],
+      default: [],
+    },
+
+    genderPreference: {
+      type: String,
+      enum: {
+        values: ["male", "female", "both"],
+        message: "Only 'male', 'female' and 'both' are allowed as a preference",
+        default: "both",
+      },
+    },
+
+    agePreference: {
+      type: Object,
+      default: function (value) {
+        return this.age >= 18
+          ? { fromAge: 18, toAge: 30 }
+          : { fromAge: 13, toAge: 17 };
+      },
+    },
   },
   { timestamps: true }
 );
+
+userSchema.index({ gender: 1, age: 1 });
 
 userSchema.methods.validatePassword = async function (userInputPassword) {
   const isValidPassword = await bcrypt.compare(
