@@ -8,7 +8,7 @@ const createAccessToken = (payload) => {
 
     return token;
   } catch (error) {
-    console.log("Access token creating error: ", error.message);
+    console.error("Access token creating error: ", error.message);
     return null;
   }
 };
@@ -21,7 +21,7 @@ const createRefreshToken = (payload) => {
 
     return token;
   } catch (error) {
-    console.log("Refresh token creating error: ", error.message);
+    console.error("Refresh token creating error: ", error.message);
     return null;
   }
 };

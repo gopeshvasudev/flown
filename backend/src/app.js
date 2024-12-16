@@ -1,9 +1,11 @@
 import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
-import authRouter from "./routes/auth.routes.js";
+
 import connectToDatabase from "./config/database.connection.js";
+import authRouter from "./routes/auth.routes.js";
 import profileRouter from "./routes/profile.routes.js";
+import connnectionRouter from "./routes/connection.routes.js";
 
 dotenv.config();
 const app = express();
@@ -16,6 +18,7 @@ app.use(cookieParser());
 //Routes
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/profile", profileRouter);
+app.use("/api/v1/connection", connnectionRouter);
 
 //Starting the server and connecting to DB
 connectToDatabase();

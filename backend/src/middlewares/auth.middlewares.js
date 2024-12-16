@@ -31,7 +31,7 @@ const authenticateUser = async (req, res, next) => {
     req.user = user;
     next();
   } catch (error) {
-    console.log(`Authentication middleware error: ${error.message}`);
+    console.error(`Authentication middleware error: ${error.message}`);
 
     return res.status(error.statusCode || 500).json({
       success: false,

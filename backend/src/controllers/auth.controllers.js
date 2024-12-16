@@ -53,7 +53,7 @@ const signupHandler = async (req, res) => {
         accessToken: accessToken,
       });
   } catch (error) {
-    console.log("Sign up error: ", error.message);
+    console.error("Sign up error: ", error.message);
 
     return res.status(error.statusCode || 500).json({
       success: false,
@@ -99,7 +99,7 @@ const signinHandler = async (req, res) => {
         accessToken,
       });
   } catch (error) {
-    console.log("Sign in error: ", error.message);
+    console.error("Sign in error: ", error.message);
 
     return res.status(error.statusCode || 500).json({
       success: false,
@@ -140,7 +140,7 @@ const refreshTokenHandler = async (req, res) => {
       accessToken,
     });
   } catch (error) {
-    console.log("Refresh token error: ", error.message);
+    console.error("Refresh token error: ", error.message);
 
     return res.status(error.statusCode || 500).json({
       success: false,

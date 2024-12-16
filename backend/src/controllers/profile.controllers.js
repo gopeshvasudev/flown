@@ -15,7 +15,7 @@ const getProfileDetailsHandler = async (req, res) => {
       user,
     });
   } catch (error) {
-    console.log(`Get profile error: ${error.message}`);
+    console.error(`Get profile error: ${error.message}`);
 
     return res.status(error.statusCode || 500).json({
       success: false,
@@ -41,7 +41,7 @@ const updateProfileDetailsHandler = async (req, res) => {
       message: `${user.username} your profile updated successfully`,
     });
   } catch (error) {
-    console.log(`Update profile details error: ${error.message}`);
+    console.error(`Update profile details error: ${error.message}`);
 
     return res.status(error.statusCode || 500).json({
       success: false,
@@ -84,7 +84,7 @@ const updateUsernameHandler = async (req, res) => {
       message: "Username updated successfully",
     });
   } catch (error) {
-    console.log("Username edit error: " + error.message);
+    console.error("Username edit error: " + error.message);
 
     return res.status(error.statusCode || 500).json({
       success: false,
@@ -110,7 +110,7 @@ const updatePasswordHandler = async (req, res) => {
       user.password
     );
 
-    console.log(isValidPassword);
+    console.error(isValidPassword);
 
     if (!isValidPassword) {
       throw new HttpError(401, "Incorrect current password");
