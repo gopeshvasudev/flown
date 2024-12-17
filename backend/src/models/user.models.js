@@ -88,8 +88,8 @@ const userSchema = new mongoose.Schema(
       enum: {
         values: ["male", "female", "both"],
         message: "Only 'male', 'female' and 'both' are allowed as a preference",
-        default: "both",
       },
+      default: "both",
     },
 
     agePreference: {

@@ -22,29 +22,33 @@ const sendConnectionRequestHandler = async (req, res) => {
       throw new HttpError(401, "Message must not be empty");
     }
 
-    // 3. Aggregate to find matching users
-    const filteredUsers = await userModel.aggregate([
+    // 3. Aggregate to find a random matching user
+    const [randomUser] = await userModel.aggregate([
       {
         $match: {
           _id: { $ne: _id }, // Exclude current user
-          age: { $gte: agePreference.fromAge, $lte: agePreference.toAge }, // Age range filter
+          age: { $gte: agePreference.fromAge, $lte: agePreference.toAge },
           $or: [
-            { gender: genderPreference }, // Match current user's gender preference
-            { genderPreference: "both" }, // Accept users open to all genders
+            {
+              $and: [
+                { gender: genderPreference }, // Match mutual gender preference
+                { genderPreference: user.gender },
+              ],
+            },
+            { genderPreference: "both" },
           ],
         },
       },
+      { $sample: { size: 1 } }, // Randomly pick one user
     ]);
 
-    // 4. Handle case where no users are found
-    if (filteredUsers.length === 0) {
+    if (!randomUser) {
       throw new HttpError(404, "No suitable users found for connection.");
     }
 
-    // Pick the first user for simplicity (you can add logic to randomize or pick best match)
-    const toUser = filteredUsers[0]._id;
+    const toUser = randomUser._id;
 
-    // 5. Check if a connection already exists
+    // 4. Check for existing connection
     const existingConnection = await connectionModel.findOne({
       $or: [
         { fromUser: _id, toUser },
@@ -56,11 +60,12 @@ const sendConnectionRequestHandler = async (req, res) => {
       throw new HttpError(400, "Connection request already sent.");
     }
 
-    // 6. Create a connection request
+    // 5. Create a connection request
     const newConnection = await connectionModel.create({
       fromUser: _id,
-      toUser: toUser,
-      status: "send", // Initial status
+      toUser,
+      status: "pending",
+      letterMessage,
     });
 
     return res.status(200).json({
