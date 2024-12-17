@@ -17,7 +17,7 @@ const signupHandler = async (req, res) => {
     });
 
     if (user) {
-      throw new HttpError(400, "User already exist");
+      throw new HttpError(400, "User already exists");
     }
 
     //Encrypting the password
@@ -88,11 +88,11 @@ const signinHandler = async (req, res) => {
     });
 
     return res
-      .status(200)
       .cookie("refreshToken", refreshToken, {
         httpOnly: true,
         maxAge: 1000 * 60 * 60 * 24 * 30,
       })
+      .status(200)
       .json({
         success: true,
         message: "Login successful",
@@ -112,22 +112,28 @@ const refreshTokenHandler = async (req, res) => {
   try {
     const { refreshToken } = req.cookies;
 
-    //Checking if the refresh token exist or not in the cookie
+    // Checking if the refresh token exists
     if (!refreshToken) {
-      throw new HttpError(404, "Token not found");
+      throw new HttpError(
+        400,
+        "Refresh token is missing. Please log in again."
+      );
     }
 
-    //Verifying the token
+    // Verifying the token
     const decodedData = jwt.verify(refreshToken, process.env.JWT_SECRET_KEY);
 
     if (!decodedData) {
-      throw new HttpError(401, "Invalid token");
+      throw new HttpError(
+        401,
+        "Invalid or expired token. Please log in again."
+      );
     }
 
-    //If the token is verified then fetch the user
+    // Fetching the user
     const user = await userModel.findById(decodedData._id);
 
-    //creating a new access token and sending it in the response
+    // Creating a new access token
     const accessToken = createAccessToken({
       _id: user._id,
       username: user.username,
@@ -144,7 +150,7 @@ const refreshTokenHandler = async (req, res) => {
 
     return res.status(error.statusCode || 500).json({
       success: false,
-      message: error.message || "Internal server error",
+      message: error.message || "Something went wrong. Please try again later.",
     });
   }
 };
