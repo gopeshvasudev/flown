@@ -1,10 +1,34 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.jsx'
+import { lazy, StrictMode, Suspense } from "react";
+import { createRoot } from "react-dom/client";
+import "./index.css";
+import App from "./App.jsx";
+import { Provider } from "react-redux";
+import store from "./store/store.js";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-createRoot(document.getElementById('root')).render(
+const Home = lazy(() => import("./pages/Home.jsx"));
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <App />,
+    children: [
+      {
+        path: "/",
+        element: (
+          <Suspense fallback={<h1>Fallback Loading....</h1>}>
+            <Home />
+          </Suspense>
+        ),
+      },
+    ],
+  },
+]);
+
+createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <App />
-  </StrictMode>,
-)
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
+  </StrictMode>
+);
