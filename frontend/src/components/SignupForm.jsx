@@ -1,21 +1,71 @@
 import React from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+
 import {
   toggleIsSignupPasswordViewable,
   toggleIsSignin,
 } from "../store/reducers/appSlice";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const SignupForm = () => {
+  const dispatch = useDispatch();
+
   const isSignupPasswordViewable = useSelector(
     (store) => store.app.isSignupPasswordViewable
   );
 
-  const dispatch = useDispatch();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
+
+  const navigate = useNavigate("/");
+
+  const submitHandler = async (data) => {
+    try {
+      const { username, email, password, age, gender } = data;
+
+      const res = await axios.post(
+        "http://localhost:5000/api/v1/auth/signup",
+        {
+          username,
+          email,
+          password,
+          age,
+          gender,
+        },
+        { withCredentials: true }
+      );
+
+      if (res.data.success) {
+        reset({
+          username: "",
+          email: "",
+          password: "",
+          age: "",
+          gender: "",
+        });
+
+        toast.success(res.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      if (error && error?.response && error?.response?.data) {
+        toast.error(error?.response?.data?.message);
+      }
+    }
+  };
 
   return (
     <div className="w-full flex justify-center px-5">
       <form
+        onSubmit={handleSubmit(submitHandler)}
         method="post"
         className="w-full sm:w-[400px] 2xl:w-[500px] flex flex-col gap-5 p-5 bg-zinc-950 rounded-md shadow-[0px_0px_15px_#ff8e32]"
       >
@@ -26,19 +76,25 @@ const SignupForm = () => {
 
         <input
           type="text"
-          name="username"
+          {...register("username", { required: "Username is required" })}
           placeholder="Username"
           autoComplete="off"
           className="p-2 bg-transparent border-b border-zinc-700 focus:border-white outline-none"
         />
+        {errors.username && (
+          <p className="text-xs text-red-600">{errors.username.message}</p>
+        )}
 
         <input
           type="email"
-          name="email"
+          {...register("email", { required: "Email is required" })}
           placeholder="Email"
           autoComplete="off"
           className="p-2 bg-transparent border-b border-zinc-700 focus:border-white outline-none"
         />
+        {errors.email && (
+          <p className="text-xs text-red-600">{errors.email.message}</p>
+        )}
 
         <div
           className="password-input w-full flex items-center border-b border-zinc-700 pr-2 focus:border-white"
@@ -46,7 +102,7 @@ const SignupForm = () => {
         >
           <input
             type={!isSignupPasswordViewable ? "password" : "text"}
-            name="password"
+            {...register("password", { required: "Password is required" })}
             placeholder="Password"
             autoComplete="off"
             className="w-full p-2 bg-transparent outline-none"
@@ -59,14 +115,20 @@ const SignupForm = () => {
             {!isSignupPasswordViewable ? <FaEye /> : <FaEyeSlash />}
           </span>
         </div>
+        {errors.password && (
+          <p className="text-xs text-red-600">{errors.password.message}</p>
+        )}
 
         <input
           type="number"
-          name="age"
+          {...register("age", { required: "Age is required" })}
           placeholder="Age"
           autoComplete="off"
           className="p-2 bg-transparent border-b border-zinc-700 focus:border-white outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
         />
+        {errors.age && (
+          <p className="text-xs text-red-600">{errors.age.message}</p>
+        )}
 
         <div className="flex flex-col gap-1 pl-2">
           <label className="text-zinc-400">Gender :</label>
@@ -78,7 +140,7 @@ const SignupForm = () => {
               <input
                 className="w-4 h-4 accent-orange-400 cursor-pointer"
                 type="radio"
-                name="gender"
+                {...register("gender", { required: "Gender is required" })}
                 id="male"
                 value="male"
               />
@@ -91,7 +153,7 @@ const SignupForm = () => {
               <input
                 className="w-4 h-4 accent-orange-400 cursor-pointer"
                 type="radio"
-                name="gender"
+                {...register("gender", { required: "Gender is required" })}
                 id="female"
                 value="female"
               />
@@ -104,13 +166,16 @@ const SignupForm = () => {
               <input
                 className="w-4 h-4 accent-orange-400 cursor-pointer"
                 type="radio"
-                name="gender"
+                {...register("gender", { required: "Gender is required" })}
                 id="others"
                 value="others"
               />
             </div>
           </div>
         </div>
+        {errors.gender && (
+          <p className="text-xs text-red-600">{errors.gender.message}</p>
+        )}
 
         <p
           className="text-center text-sm text-zinc-400 cursor-pointer my-2"

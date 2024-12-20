@@ -16,8 +16,11 @@ const signupHandler = async (req, res) => {
       $or: [{ email }, { username }],
     });
 
-    if (user) {
-      throw new HttpError(400, "User already exists");
+    if (user && user.username === username) {
+      throw new HttpError(400, "Username already exists!");
+    }
+    if (user && user.email === email) {
+      throw new HttpError(400, "Email already exists!");
     }
 
     //Encrypting the password
@@ -95,7 +98,7 @@ const signinHandler = async (req, res) => {
       .status(200)
       .json({
         success: true,
-        message: "Login successful",
+        message: `Welcome back! ${user.nickName || user.username}`,
         accessToken,
       });
   } catch (error) {
