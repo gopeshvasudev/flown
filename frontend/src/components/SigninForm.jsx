@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import axiosInstance from "../utils/axiosInstance.js";
 
 import {
   toggleIsSigninPasswordViewable,
@@ -29,16 +29,10 @@ const SigninForm = () => {
   const submitHandler = async (data) => {
     const { email, password } = data;
     try {
-      const res = await axios.post(
-        "http://localhost:5000/api/v1/auth/signin",
-        {
-          email,
-          password,
-        },
-        {
-          withCredentials: true,
-        }
-      );
+      const res = await axiosInstance.post("/api/v1/auth/signin", {
+        email,
+        password,
+      });
 
       if (res.data.success) {
         reset({

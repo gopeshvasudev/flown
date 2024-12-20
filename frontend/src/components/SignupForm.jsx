@@ -3,13 +3,12 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-
+import toast from "react-hot-toast";
+import axiosInstance from "../utils/axiosInstance.js";
 import {
   toggleIsSignupPasswordViewable,
   toggleIsSignin,
 } from "../store/reducers/appSlice";
-import axios from "axios";
-import toast from "react-hot-toast";
 
 const SignupForm = () => {
   const dispatch = useDispatch();
@@ -31,17 +30,13 @@ const SignupForm = () => {
     try {
       const { username, email, password, age, gender } = data;
 
-      const res = await axios.post(
-        "http://localhost:5000/api/v1/auth/signup",
-        {
-          username,
-          email,
-          password,
-          age,
-          gender,
-        },
-        { withCredentials: true }
-      );
+      const res = await axiosInstance.post("/api/v1/auth/signup", {
+        username,
+        email,
+        password,
+        age,
+        gender,
+      });
 
       if (res.data.success) {
         reset({
@@ -53,6 +48,8 @@ const SignupForm = () => {
         });
 
         toast.success(res.data.message);
+
+        navigate("/");
       }
     } catch (error) {
       console.log(error);
