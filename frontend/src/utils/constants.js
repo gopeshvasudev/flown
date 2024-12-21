@@ -13,4 +13,32 @@ const navLinksData = [
   },
 ];
 
-export { navLinksData };
+const profileNavLinksData = [
+  {
+    name: "Profile",
+    path: "/profile",
+    isMainLink: false,
+  },
+  {
+    name: "Logout",
+    path: "/logout",
+    isMainLink: false,
+  },
+  {
+    name: "Home",
+    path: "/",
+    isMainLink: true,
+  },
+  {
+    name: "Chats",
+    path: "/chats",
+    isMainLink: true,
+  },
+  {
+    name: "Requests",
+    path: "/requests",
+    isMainLink: true,
+  },
+];
+
+export { navLinksData, profileNavLinksData };

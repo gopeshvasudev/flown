@@ -4,6 +4,7 @@ const initialState = {
   isSigninPasswordViewable: false,
   isSignupPasswordViewable: false,
   isSignin: true,
+  isDropdownVisible: false,
 };
 
 const appSlice = createSlice({
@@ -21,6 +22,10 @@ const appSlice = createSlice({
     toggleIsSignin(state) {
       state.isSignin = !state.isSignin;
     },
+
+    toggleIsDropdownVisible(state) {
+      state.isDropdownVisible = !state.isDropdownVisible;
+    },
   },
 });
 
@@ -29,4 +34,5 @@ export const {
   toggleIsSigninPasswordViewable,
   toggleIsSignupPasswordViewable,
   toggleIsSignin,
+  toggleIsDropdownVisible,
 } = appSlice.actions;

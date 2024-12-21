@@ -13,6 +13,7 @@ const App = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const token = useSelector((store) => store.token.token);
+  const user = useSelector((store) => store.user.user);
 
   const getUserInfoHandler = async () => {
     try {
@@ -34,6 +35,9 @@ const App = () => {
   };
 
   useEffect(() => {
+    if (!user) {
+      navigate("/login");
+    }
     if (token) {
       getUserInfoHandler();
     }

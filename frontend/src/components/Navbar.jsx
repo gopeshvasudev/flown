@@ -1,14 +1,17 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
-import { navLinksData } from "../utils/constants";
+import { navLinksData, profileNavLinksData } from "../utils/constants";
+import { toggleIsDropdownVisible } from "../store/reducers/appSlice";
 
 const Navbar = () => {
   const user = useSelector((store) => store.user.user);
+  const isDropdownVisible = useSelector((store) => store.app.isDropdownVisible);
+  const dispatch = useDispatch();
 
   return (
     <nav className="fixed top-0 left-0 navbar w-full h-[90px] bg-transparent text-white flex items-center justify-center p-4">
-      <div className="w-full md:max-w-5xl h-full bg-zinc-950 shadow-[0px_0px_10px_1px_rgba(191,38,211,0.6)] rounded-2xl flex items-center justify-between px-3">
+      <div className="w-full relative md:max-w-5xl h-full bg-zinc-950 shadow-[0px_0px_10px_1px_rgba(191,38,211,0.6)] rounded-2xl flex items-center justify-between px-3">
         <div>
           <Link to={"/"}>
             <h1 className="font-[shadow-hand] text-3xl text-fuchsia-400 pl-3 pt-1">
@@ -17,13 +20,15 @@ const Navbar = () => {
           </Link>
         </div>
 
-        <div>
+        <div className="hidden lg:block">
           <ul className="flex items-center gap-20">
             {navLinksData?.map((link) => (
-              <li>
+              <li key={link.name}>
                 <NavLink
                   className={({ isActive }) =>
-                    isActive ? "text-white text-sm font-medium" : "text-zinc-400 text-sm"
+                    isActive
+                      ? "text-white text-sm font-medium"
+                      : "text-zinc-400 text-sm"
                   }
                   to={link.path}
                 >
@@ -35,13 +40,38 @@ const Navbar = () => {
         </div>
 
         <div>
-          <figure className="avatar-preview w-[38px] h-[38px] bg-zinc-900 rounded-xl overflow-hidden border-2 border-fuchsia-500">
+          <figure
+            className="avatar-preview w-[38px] h-[38px] bg-zinc-900 rounded-xl overflow-hidden border-2 border-fuchsia-500 cursor-pointer"
+            onClick={() => dispatch(toggleIsDropdownVisible())}
+          >
             <img
               className="w-full h-full object-cover"
               src={user?.photoUrl}
               alt={user?.username}
             />
           </figure>
+
+          <div
+            className={`dropdown ${
+              isDropdownVisible ? "h-fit p-2" : "h-0 p-0"
+            } overflow-hidden absolute z-50 top-[120%] right-0 bg-zinc-900 rounded-2xl duration-300`}
+          >
+            <ul className="flex flex-col h-fit gap-2">
+              {profileNavLinksData?.map((link) => (
+                <Link
+                  to={link.path}
+                  key={link.name}
+                  className={`${link.isMainLink && "lg:hidden"}`}
+                >
+                  <li
+                    className={`px-8 py-2 rounded-lg font-medium text-sm hover:bg-fuchsia-500 hover:text-black duration-300 cursor-pointer`}
+                  >
+                    {link.name}
+                  </li>
+                </Link>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </nav>
