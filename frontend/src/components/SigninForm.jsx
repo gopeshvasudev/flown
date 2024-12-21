@@ -56,11 +56,14 @@ const SigninForm = () => {
       <form
         onSubmit={handleSubmit(submitHandler)}
         method="post"
-        className="w-full sm:w-[400px] 2xl:w-[500px] flex flex-col gap-5 p-5 bg-zinc-950 rounded-md shadow-[0px_0px_15px_#ff8e32]"
+        className="w-full sm:w-[400px] 2xl:w-[500px] flex flex-col gap-5 p-5 bg-zinc-950 rounded-md shadow-[0px_0px_30px_1px_rgba(191,38,211,0.3)]"
       >
         <h1 className="text-2xl text-center mb-5 font-medium">
           Welcome back to
-          <span className="text-orange-400 font-black"> Flown</span>
+          <span className="text-fuchsia-400 uppercase font-[shadow-hand]">
+            {" "}
+            Flown
+          </span>
         </h1>
 
         <input
@@ -101,7 +104,7 @@ const SigninForm = () => {
 
         <button
           type="submit"
-          className="bg-orange-400 text-black font-bold py-2 rounded-md border border-orange-400 hover:bg-transparent hover:text-orange-400 hover:shadow-[0px_0px_10px_#FB923C] duration-300 outline-none focus:bg-transparent focus:text-orange-400 focus:shadow-[0px_0px_10px_#FB923C]"
+          className="bg-fuchsia-500 text-black font-bold py-2 rounded-md border border-fuchsia-400 hover:bg-transparent hover:text-fuchsia-400 hover:shadow-[0px_0px_10px_#C026D3] duration-300 outline-none focus:bg-transparent focus:text-fuchsia-400 focus:shadow-[0px_0px_10px_#C026D3]"
         >
           Sign In
         </button>

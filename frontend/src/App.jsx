@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axiosInstance from "./utils/axiosInstance";
 import useRefreshTokenHandler from "./hooks/useRefreshTokenHandler";
 import { setUser } from "./store/reducers/userSlice";
+import Navbar from "./components/Navbar";
 
 const App = () => {
   useRefreshTokenHandler();
@@ -27,8 +28,7 @@ const App = () => {
     } catch (error) {
       if (error && error.response && error.response.data) {
         toast.error(error?.response?.data?.message);
-
-        navigate("/login");
+        return navigate("/login");
       }
     }
   };
@@ -38,11 +38,37 @@ const App = () => {
       getUserInfoHandler();
     }
   }, [token]);
-  
+
   return (
     <>
+      {window.location.pathname !== "/login" && <Navbar />}
       <Outlet />
-      <Toaster />
+      <Toaster
+        toastOptions={{
+          success: {
+            style: {
+              background: "#a21caf",
+              boxShadow: "0px 0px 10px rgba(191,38,211,0.3)",
+              color: "#ffffff",
+            },
+            iconTheme: {
+              primary: "#000000",
+              secondary: "#ffffff",
+            },
+          },
+          error: {
+            style: {
+              background: "#a21caf",
+              boxShadow: "0px 0px 10px rgba(191,38,211,0.3)",
+              color: "#ffffff",
+            },
+            iconTheme: {
+              primary: "#000000",
+              secondary: "#ffffff",
+            },
+          },
+        }}
+      />
     </>
   );
 };

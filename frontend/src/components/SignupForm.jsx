@@ -64,11 +64,14 @@ const SignupForm = () => {
       <form
         onSubmit={handleSubmit(submitHandler)}
         method="post"
-        className="w-full sm:w-[400px] 2xl:w-[500px] flex flex-col gap-5 p-5 bg-zinc-950 rounded-md shadow-[0px_0px_15px_#ff8e32]"
+        className="w-full sm:w-[400px] 2xl:w-[500px] flex flex-col gap-5 p-5 bg-zinc-950 rounded-md shadow-[0px_0px_30px_1px_rgba(191,38,211,0.3)]"
       >
         <h1 className="text-2xl text-center mb-5 font-medium">
-          Welcome to
-          <span className="text-orange-400 font-black"> Flown</span>
+          Sign up on
+          <span className="text-fuchsia-400 uppercase font-[shadow-hand]">
+            {" "}
+            Flown
+          </span>
         </h1>
 
         <input
@@ -135,7 +138,7 @@ const SignupForm = () => {
                 Male
               </label>
               <input
-                className="w-4 h-4 accent-orange-400 cursor-pointer"
+                className="w-4 h-4 accent-fuchsia-400 cursor-pointer"
                 type="radio"
                 {...register("gender", { required: "Gender is required" })}
                 id="male"
@@ -148,7 +151,7 @@ const SignupForm = () => {
                 Female
               </label>
               <input
-                className="w-4 h-4 accent-orange-400 cursor-pointer"
+                className="w-4 h-4 accent-fuchsia-400 cursor-pointer"
                 type="radio"
                 {...register("gender", { required: "Gender is required" })}
                 id="female"
@@ -161,7 +164,7 @@ const SignupForm = () => {
                 Others
               </label>
               <input
-                className="w-4 h-4 accent-orange-400 cursor-pointer"
+                className="w-4 h-4 accent-fuchsia-400 cursor-pointer"
                 type="radio"
                 {...register("gender", { required: "Gender is required" })}
                 id="others"
@@ -184,7 +187,7 @@ const SignupForm = () => {
 
         <button
           type="submit"
-          className="bg-orange-400 text-black font-bold py-2 rounded-md border border-orange-400 hover:bg-transparent hover:text-orange-400 hover:shadow-[0px_0px_10px_#FB923C] duration-300 outline-none focus:bg-transparent focus:text-orange-400 focus:shadow-[0px_0px_10px_#FB923C]"
+          className="bg-fuchsia-500 text-black font-bold py-2 rounded-md border border-fuchsia-400 hover:bg-transparent hover:text-fuchsia-400 hover:shadow-[0px_0px_10px_#C026D3] duration-300 outline-none focus:bg-transparent focus:text-fuchsia-400 focus:shadow-[0px_0px_10px_#C026D3]"
         >
           Sign Up
         </button>

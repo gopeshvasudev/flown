@@ -117,20 +117,14 @@ const refreshTokenHandler = async (req, res) => {
 
     // Checking if the refresh token exists
     if (!refreshToken) {
-      throw new HttpError(
-        400,
-        "Refresh token is missing. Please log in again."
-      );
+      throw new HttpError(400, "Please log in again.");
     }
 
     // Verifying the token
     const decodedData = jwt.verify(refreshToken, process.env.JWT_SECRET_KEY);
 
     if (!decodedData) {
-      throw new HttpError(
-        401,
-        "Invalid or expired token. Please log in again."
-      );
+      throw new HttpError(401, "Please log in again.");
     }
 
     // Fetching the user

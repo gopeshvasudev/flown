@@ -9,10 +9,7 @@ const authenticateUser = async (req, res, next) => {
 
     // Checking if the token exists or not
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      throw new HttpError(
-        401,
-        "Access token is missing or improperly formatted. Please log in again."
-      );
+      throw new HttpError(401, "Please log in again.");
     }
 
     // Splitting the token to the Bearer
@@ -22,10 +19,7 @@ const authenticateUser = async (req, res, next) => {
     const decodedData = jwt.verify(token, process.env.JWT_SECRET_KEY);
 
     if (!decodedData) {
-      throw new HttpError(
-        403,
-        "Invalid or expired token. Please log in again."
-      );
+      throw new HttpError(403, "Please log in again.");
     }
 
     const user = await userModel.findById(decodedData._id).select("-password");

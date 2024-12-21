@@ -2,7 +2,8 @@ import { useEffect } from "react";
 import axiosInstance from "../utils/axiosInstance.js";
 import { toast } from "react-hot-toast";
 import { useDispatch } from "react-redux";
-import { setToken } from "../store/reducers/tokenSlice.js";
+import { clearToken, setToken } from "../store/reducers/tokenSlice.js";
+import { clearUser } from "../store/reducers/userSlice.js";
 import { useNavigate } from "react-router-dom";
 
 const useRefreshTokenHandler = () => {
@@ -20,7 +21,9 @@ const useRefreshTokenHandler = () => {
       if (error && error.response && error.response.data) {
         toast.error(error?.response?.data?.message);
 
-        navigate("/login");
+        dispatch(clearToken());
+        dispatch(clearUser());
+        return navigate("/login");
       }
     }
   };

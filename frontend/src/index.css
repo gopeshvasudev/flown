@@ -4,6 +4,11 @@
 
 /* Font families */
 @font-face {
+  font-family: "shadow-hand";
+  src: url("../fonts/ShadowHand.woff2");
+}
+
+@font-face {
   font-family: "poppins";
   src: url("../fonts/Poppins-Light.woff2");
   font-weight: 300;
