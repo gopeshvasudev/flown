@@ -34,11 +34,6 @@ const profileNavLinksData = [
     path: "/profile",
     isMainLink: false,
   },
-  {
-    name: "Logout",
-    path: "/logout",
-    isMainLink: false,
-  },
 ];
 
 export { navLinksData, profileNavLinksData };

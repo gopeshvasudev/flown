@@ -27,13 +27,16 @@ const Profile = () => {
           <h6 className="text-sm text-center mt-1">@{user?.username}</h6>
         </div>
 
-        <div className="rounded-xl flex items-center bg-zinc-900">
-          <div className="border-r py-3 px-5 text-fuchsia-500">
+        <div className="rounded-xl flex items-center gap-1 overflow-hidden">
+          <div className="h-14 w-24 text-fuchsia-400 bg-zinc-900 text-xl flex items-center justify-center">
             {user?.gender === "male" && <IoMdMale />}
             {user?.gender === "female" && <IoMdFemale />}
             {user?.gender === "others" && <TbGenderTransgender />}
           </div>
-          <div className="py-3 px-5 font-semibold">{user?.age}</div>
+
+          <div className="h-14 w-24 font-semibold bg-zinc-900 flex items-center justify-center">
+            {user?.age}
+          </div>
         </div>
 
         <div className="flex items-center gap-3">

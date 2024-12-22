@@ -3,11 +3,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
 import { navLinksData, profileNavLinksData } from "../utils/constants";
 import { toggleIsDropdownVisible } from "../store/reducers/appSlice";
+import useLogoutHandler from "../hooks/useLogoutHandler";
 
 const Navbar = () => {
   const user = useSelector((store) => store.user.user);
   const isDropdownVisible = useSelector((store) => store.app.isDropdownVisible);
   const dispatch = useDispatch();
+  const logout = useLogoutHandler();
+
+  const logoutHandler = () => logout();
 
   return (
     <nav className="fixed z-50 top-0 left-0 navbar w-full h-[90px] bg-transparent text-white flex items-center justify-center p-4">
@@ -70,6 +74,13 @@ const Navbar = () => {
                   </li>
                 </Link>
               ))}
+
+              <li
+                onClick={logoutHandler}
+                className={`px-8 py-2 rounded-lg font-medium text-sm hover:bg-fuchsia-500 hover:text-black duration-300 cursor-pointer`}
+              >
+                Logout
+              </li>
             </ul>
           </div>
         </div>
