@@ -152,4 +152,24 @@ const refreshTokenHandler = async (req, res) => {
   }
 };
 
-export { signupHandler, signinHandler, refreshTokenHandler };
+const logoutHandler = async (req, res) => {
+  try {
+    const isCookieDeleted = res.clearCookie("refreshToken");
+
+    if (isCookieDeleted) {
+      return res.status(200).json({
+        success: true,
+        message: "User logout successfully",
+      });
+    }
+  } catch (error) {
+    console.log("logout error: " + error.message);
+
+    return res.status(500).json({
+      success: false,
+      message: error.message || "Internal server error",
+    });
+  }
+};
+
+export { signupHandler, signinHandler, refreshTokenHandler, logoutHandler };
