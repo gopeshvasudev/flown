@@ -8,6 +8,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 const Home = lazy(() => import("./pages/Home.jsx"));
 const Login = lazy(() => import("./pages/Login.jsx"));
+const Profile = lazy(() => import("./pages/Profile.jsx"));
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,14 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<h1>Fallback Loading....</h1>}>
             <Login />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/profile",
+        element: (
+          <Suspense fallback={<h1>Fallback Loading....</h1>}>
+            <Profile />
           </Suspense>
         ),
       },

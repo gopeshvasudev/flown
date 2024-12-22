@@ -6,13 +6,13 @@ const Home = () => {
 
   return (
     <>
-      <main className="w-full h-screen bg-zinc-950 text-white flex items-center justify-center xl:justify-end flex-col pb-10">
+      <section className="w-full h-screen bg-zinc-950 text-white flex items-center justify-center xl:justify-end flex-col pb-10">
         <div>
-          <h1 className="font-semibold text-5xl sm:text-7xl lg:text-8xl tracking-tighter text-center mb-1">
+          <h1 className="font-semibold text-4xl sm:text-6xl lg:text-7xl xl:text-8xl tracking-tighter text-center mb-1">
             From Strangers
           </h1>
 
-          <h1 className="font-semibold text-5xl sm:text-7xl lg:text-8xl tracking-tighter mb-1 flex items-center gap-6 justify-center">
+          <h1 className="font-semibold text-4xl sm:text-6xl lg:text-7xl xl:text-8xl tracking-tighter mb-1 flex items-center gap-6 justify-center">
             to Soaring
             <span>
               <img
@@ -23,7 +23,7 @@ const Home = () => {
             </span>
           </h1>
 
-          <h1 className="font-semibold text-5xl sm:text-7xl lg:text-8xl tracking-tighter text-center mb-1">
+          <h1 className="font-semibold text-4xl sm:text-6xl lg:text-7xl xl:text-8xl tracking-tighter text-center mb-1">
             Connections
           </h1>
         </div>
@@ -37,7 +37,7 @@ const Home = () => {
           </span>
           Send letter
         </Link>
-      </main>
+      </section>
     </>
   );
 };

@@ -46,7 +46,9 @@ const App = () => {
   return (
     <>
       {window.location.pathname !== "/login" && <Navbar />}
-      <Outlet />
+      <main className="w-full bg-zinc-950 text-white">
+        <Outlet />
+      </main>
       <Toaster
         toastOptions={{
           success: {
