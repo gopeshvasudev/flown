@@ -2,7 +2,10 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
 import { navLinksData, profileNavLinksData } from "../utils/constants";
-import { toggleIsDropdownVisible } from "../store/reducers/appSlice";
+import {
+  closeDropdownMenu,
+  toggleIsDropdownVisible,
+} from "../store/reducers/appSlice";
 import useLogoutHandler from "../hooks/useLogoutHandler";
 
 const Navbar = () => {
@@ -65,6 +68,7 @@ const Navbar = () => {
                 <Link
                   to={link.path}
                   key={link.name}
+                  onClick={() => dispatch(closeDropdownMenu())}
                   className={`${link.isMainLink && "lg:hidden"}`}
                 >
                   <li

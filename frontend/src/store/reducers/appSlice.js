@@ -26,6 +26,10 @@ const appSlice = createSlice({
     toggleIsDropdownVisible(state) {
       state.isDropdownVisible = !state.isDropdownVisible;
     },
+
+    closeDropdownMenu(state) {
+      state.isDropdownVisible = false;
+    },
   },
 });
 
@@ -35,4 +39,5 @@ export const {
   toggleIsSignupPasswordViewable,
   toggleIsSignin,
   toggleIsDropdownVisible,
+  closeDropdownMenu,
 } = appSlice.actions;
