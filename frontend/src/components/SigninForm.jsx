@@ -60,7 +60,7 @@ const SigninForm = () => {
       >
         <h1 className="text-2xl text-center mb-5 font-medium">
           Welcome back to
-          <span className="text-fuchsia-400 uppercase font-[shadow-hand]">
+          <span className="text-purple-400 uppercase font-[shadow-hand]">
             {" "}
             Flown
           </span>
@@ -104,7 +104,7 @@ const SigninForm = () => {
 
         <button
           type="submit"
-          className="bg-fuchsia-500 text-black font-bold py-2 rounded-md border border-fuchsia-400 hover:bg-transparent hover:text-fuchsia-400 hover:shadow-[0px_0px_10px_#C026D3] duration-300 outline-none focus:bg-transparent focus:text-fuchsia-400 focus:shadow-[0px_0px_10px_#C026D3]"
+          className="bg-purple-500 text-black font-bold py-2 rounded-md border border-purple-400 hover:bg-transparent hover:text-purple-400 hover:shadow-[0px_0px_10px_#C026D3] duration-300 outline-none focus:bg-transparent focus:text-purple-400 focus:shadow-[0px_0px_10px_#C026D3]"
         >
           Sign In
         </button>

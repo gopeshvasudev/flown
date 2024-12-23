@@ -7,7 +7,7 @@ const Errors = () => {
   return (
     <section className="w-full h-screen flex flex-col items-center justify-center gap-10 bg-zinc-950 text-white">
       <div>
-        <h1 className="text-8xl font-bold text-fuchsia-400 text-center">
+        <h1 className="text-8xl font-bold text-purple-400 text-center">
           {errors?.status}
         </h1>
 

@@ -68,7 +68,7 @@ const SignupForm = () => {
       >
         <h1 className="text-2xl text-center mb-5 font-medium">
           Sign up on
-          <span className="text-fuchsia-400 uppercase font-[shadow-hand]">
+          <span className="text-purple-400 uppercase font-[shadow-hand]">
             {" "}
             Flown
           </span>
@@ -138,7 +138,7 @@ const SignupForm = () => {
                 Male
               </label>
               <input
-                className="w-4 h-4 accent-fuchsia-400 cursor-pointer"
+                className="w-4 h-4 accent-purple-400 cursor-pointer"
                 type="radio"
                 {...register("gender", { required: "Gender is required" })}
                 id="male"
@@ -151,7 +151,7 @@ const SignupForm = () => {
                 Female
               </label>
               <input
-                className="w-4 h-4 accent-fuchsia-400 cursor-pointer"
+                className="w-4 h-4 accent-purple-400 cursor-pointer"
                 type="radio"
                 {...register("gender", { required: "Gender is required" })}
                 id="female"
@@ -164,7 +164,7 @@ const SignupForm = () => {
                 Others
               </label>
               <input
-                className="w-4 h-4 accent-fuchsia-400 cursor-pointer"
+                className="w-4 h-4 accent-purple-400 cursor-pointer"
                 type="radio"
                 {...register("gender", { required: "Gender is required" })}
                 id="others"
@@ -187,7 +187,7 @@ const SignupForm = () => {
 
         <button
           type="submit"
-          className="bg-fuchsia-500 text-black font-bold py-2 rounded-md border border-fuchsia-400 hover:bg-transparent hover:text-fuchsia-400 hover:shadow-[0px_0px_10px_#C026D3] duration-300 outline-none focus:bg-transparent focus:text-fuchsia-400 focus:shadow-[0px_0px_10px_#C026D3]"
+          className="bg-purple-500 text-black font-bold py-2 rounded-md border border-purple-400 hover:bg-transparent hover:text-purple-400 hover:shadow-[0px_0px_10px_#C026D3] duration-300 outline-none focus:bg-transparent focus:text-purple-400 focus:shadow-[0px_0px_10px_#C026D3]"
         >
           Sign Up
         </button>

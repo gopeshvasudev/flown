@@ -33,7 +33,7 @@ const Home = () => {
 
         <Link
           to="/letter/send"
-          className="bg-fuchsia-500 rounded-2xl px-10 py-5 border border-fuchsia-500 text-black font-bold mt-10 flex items-center gap-2 hover:bg-transparent hover:text-fuchsia-400 duration-300"
+          className="bg-purple-500 rounded-2xl px-10 py-5 border border-purple-500 text-black font-bold mt-10 flex items-center gap-2 hover:bg-transparent hover:text-purple-400 duration-300"
         >
           <span>
             <IoIosPaperPlane />

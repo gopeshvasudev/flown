@@ -22,7 +22,7 @@ const Login = () => {
         <div className="w-full lg:w-1/2 h-full flex items-center justify-center">
           {isSignin ? <SigninForm /> : <SignupForm />}
         </div>
-        <div className="w-1/2 h-full bg-fuchsia-400 hidden lg:flex"></div>
+        <div className="w-1/2 h-full bg-purple-400 hidden lg:flex"></div>
       </section>
     </>
   );
