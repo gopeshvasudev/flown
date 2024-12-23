@@ -100,6 +100,17 @@ const userSchema = new mongoose.Schema(
           : { fromAge: 13, toAge: 17 };
       },
     },
+
+    languages: {
+      type: [String],
+      default: [],
+    },
+
+    flownPoints: {
+      type: Number,
+      default: 0,
+      max: 9999999,
+    },
   },
   { timestamps: true }
 );

@@ -1,5 +1,6 @@
 import validator from "validator";
 import HttpError from "./errorClass.js";
+import { languagesList } from "../utils/constants.js";
 
 const validateSignupData = (req) => {
   const { username, email, password, age, gender } = req.body;
@@ -53,7 +54,8 @@ const validateSignupData = (req) => {
 };
 
 const validateProfileEditData = (req) => {
-  const { photoUrl, interests, genderPreference, agePreference } = req.body;
+  const { photoUrl, interests, genderPreference, agePreference, languages } =
+    req.body;
   const { age } = req.user;
 
   const sanitizedFields = [
@@ -63,6 +65,7 @@ const validateProfileEditData = (req) => {
     "interests",
     "genderPreference",
     "agePreference",
+    "languages",
   ];
 
   //Sanitizing the data
@@ -108,15 +111,25 @@ const validateProfileEditData = (req) => {
     }
   } else {
     if (
-      (agePreference.fromAge < 13 ||
-      agePreference.fromAge > 17) 
-      ||
-      (agePreference.toAge < 13 ||
-      agePreference.toAge > 17)
+      agePreference.fromAge < 13 ||
+      agePreference.fromAge > 17 ||
+      agePreference.toAge < 13 ||
+      agePreference.toAge > 17
     ) {
       throw new HttpError(400, "Age preference must be between 13 to 17");
     }
   }
+
+  //Language validation
+  if (languages.length > 5) {
+    throw new HttpError(400, "Only five languages can add");
+  }
+
+  languages.forEach((language) => {
+    if (!languagesList.includes(language)) {
+      throw new HttpError(400, `Invalid language: ${language}`);
+    }
+  });
 };
 
 export { validateSignupData, validateProfileEditData };
