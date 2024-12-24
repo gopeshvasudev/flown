@@ -34,11 +34,14 @@ const Navbar = () => {
                 <NavLink
                   className={({ isActive }) =>
                     isActive
-                      ? "text-white text-sm font-medium"
-                      : "text-zinc-400 text-sm"
+                      ? "text-white text-sm font-medium flex items-center gap-1"
+                      : "text-zinc-400 text-sm flex items-center gap-1"
                   }
                   to={link.path}
                 >
+                  <span className="text-base">
+                    <link.icon />
+                  </span>
                   {link.name}
                 </NavLink>
               </li>
@@ -74,8 +77,11 @@ const Navbar = () => {
                   className={`${link.isMainLink && "lg:hidden"}`}
                 >
                   <li
-                    className={`px-8 py-2 rounded-lg font-medium text-sm hover:bg-purple-500 hover:text-black duration-300 cursor-pointer text-center`}
+                    className={`px-8 py-2 rounded-lg font-medium text-sm hover:bg-purple-500 hover:text-black duration-300 cursor-pointer flex items-center gap-2`}
                   >
+                    <span className="text-base">
+                      <link.icon />
+                    </span>
                     {link.name}
                   </li>
                 </Link>

@@ -1,12 +1,16 @@
-import { MdHome } from "react-icons/md";
+import { TiHome } from "react-icons/ti";
 import { IoChatbox } from "react-icons/io5";
 import { IoNotifications } from "react-icons/io5";
-import { CgProfile } from "react-icons/cg";
+import { RiUserFill } from "react-icons/ri";
+import { RiSettingsFill } from "react-icons/ri";
+import { FaUserCog } from "react-icons/fa";
+import { FaUserEdit } from "react-icons/fa";
+import { FaUserLock } from "react-icons/fa";
 
 const navLinksData = [
   {
     name: "Home",
-    icon: MdHome,
+    icon: TiHome,
     path: "/",
   },
   {
@@ -25,7 +29,7 @@ const profileNavLinksData = [
   {
     name: "Home",
     path: "/",
-    icon: MdHome,
+    icon: TiHome,
     isMainLink: true,
   },
   {
@@ -43,9 +47,30 @@ const profileNavLinksData = [
   {
     name: "Profile",
     path: "/profile",
-    icon: CgProfile,
+    icon: RiUserFill,
+    isMainLink: false,
+  },
+  {
+    name: "Settings",
+    path: "/profile/settings",
+    icon: RiSettingsFill,
     isMainLink: false,
   },
 ];
 
-export { navLinksData, profileNavLinksData };
+const settingsSidebarLinkData = [
+  {
+    name: "Edit Profile",
+    icon: FaUserCog,
+  },
+  {
+    name: "Edit Username",
+    icon: FaUserEdit,
+  },
+  {
+    name: "Change password",
+    icon: FaUserLock,
+  },
+];
+
+export { navLinksData, profileNavLinksData, settingsSidebarLinkData };

@@ -10,6 +10,7 @@ import Errors from "./pages/Errors.jsx";
 const Home = lazy(() => import("./pages/Home.jsx"));
 const Login = lazy(() => import("./pages/Login.jsx"));
 const Profile = lazy(() => import("./pages/Profile.jsx"));
+const Settings = lazy(() => import("./pages/Settings.jsx"));
 
 const router = createBrowserRouter([
   {
@@ -38,6 +39,14 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<h1>Fallback Loading....</h1>}>
             <Profile />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/profile/settings",
+        element: (
+          <Suspense fallback={<h1>Fallback Loading....</h1>}>
+            <Settings />
           </Suspense>
         ),
       },

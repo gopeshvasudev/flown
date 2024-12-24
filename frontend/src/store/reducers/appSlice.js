@@ -5,6 +5,7 @@ const initialState = {
   isSignupPasswordViewable: false,
   isSignin: true,
   isDropdownVisible: false,
+  isSettingsSidebarOpened: true,
 };
 
 const appSlice = createSlice({
@@ -30,6 +31,10 @@ const appSlice = createSlice({
     closeDropdownMenu(state) {
       state.isDropdownVisible = false;
     },
+
+    toggleSettingsSidebar(state) {
+      state.isSettingsSidebarOpened = !state.isSettingsSidebarOpened;
+    },
   },
 });
 
@@ -40,4 +45,5 @@ export const {
   toggleIsSignin,
   toggleIsDropdownVisible,
   closeDropdownMenu,
+  toggleSettingsSidebar,
 } = appSlice.actions;
