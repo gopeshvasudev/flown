@@ -60,11 +60,11 @@ const profileNavLinksData = [
 
 const settingsSidebarLinkData = [
   {
-    name: "Edit Profile",
+    name: "Edit Info",
     icon: FaUserCog,
   },
   {
-    name: "Edit Username",
+    name: "Change Username",
     icon: FaUserEdit,
   },
   {

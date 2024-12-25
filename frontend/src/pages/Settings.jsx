@@ -7,6 +7,7 @@ import EditProfileForm from "../components/EditProfileForm";
 
 const Settings = () => {
   const dispatch = useDispatch();
+
   const isSettingsSidebarOpened = useSelector(
     (store) => store.app.isSettingsSidebarOpened
   );
@@ -27,7 +28,7 @@ const Settings = () => {
               {settingsSidebarLinkData?.map((link) => (
                 <li
                   key={link.name}
-                  className="py-3 px-4 bg-purple-500 flex items-center gap-2 text-black font-semibold rounded-xl"
+                  className="py-3 px-4 bg-purple-500 flex items-center gap-2 text-black font-semibold rounded-xl cursor-pointer"
                 >
                   <span>
                     <link.icon />
@@ -46,7 +47,7 @@ const Settings = () => {
           </nav>
         </aside>
 
-        <section className="flex-1 h-full px-2 pb-2 overflow-hidden flex justify-center">
+        <section className="scrollbar-none flex-1 px-2 pt-10 pb-2 overflow-hidden flex justify-center overflow-y-auto">
           <EditProfileForm />
         </section>
       </div>
