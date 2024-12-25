@@ -3,6 +3,7 @@ import { HiOutlineMenuAlt1 } from "react-icons/hi";
 import { settingsSidebarLinkData } from "../utils/constants";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleSettingsSidebar } from "../store/reducers/appSlice";
+import EditProfileForm from "../components/EditProfileForm";
 
 const Settings = () => {
   const dispatch = useDispatch();
@@ -45,7 +46,9 @@ const Settings = () => {
           </nav>
         </aside>
 
-        <section className="flex-1 h-full"></section>
+        <section className="flex-1 h-full px-2 pb-2 overflow-hidden flex justify-center">
+          <EditProfileForm />
+        </section>
       </div>
     </section>
   );
