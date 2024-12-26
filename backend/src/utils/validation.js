@@ -54,14 +54,13 @@ const validateSignupData = (req) => {
 };
 
 const validateProfileEditData = (req) => {
-  const { photoUrl, interests, genderPreference, agePreference, languages } =
+  const { bio, interests, genderPreference, agePreference, languages } =
     req.body;
   const { age } = req.user;
 
   const sanitizedFields = [
     "nickName",
     "bio",
-    "photoUrl",
     "interests",
     "genderPreference",
     "agePreference",
@@ -75,17 +74,9 @@ const validateProfileEditData = (req) => {
     }
   });
 
-  //Profile photo validation
-  if (
-    !validator.isURL(photoUrl, {
-      protocols: ["http", "https"],
-      require_protocol: true,
-    })
-  ) {
-    throw new HttpError(
-      400,
-      "Please upload a valid image with http/https URL."
-    );
+  //Bio Validation
+  if (bio.length > 500) {
+    throw new HttpError(400, "Bio must be less than 500 characters");
   }
 
   //Interests length validation

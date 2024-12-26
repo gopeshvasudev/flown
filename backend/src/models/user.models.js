@@ -61,7 +61,8 @@ const userSchema = new mongoose.Schema(
     bio: {
       type: String,
       trim: true,
-      maxLength: 1111,
+      maxLength: 500,
+      default: "",
     },
 
     photoUrl: {

@@ -6,6 +6,8 @@ const initialState = {
   isSignin: true,
   isDropdownVisible: false,
   isSettingsSidebarOpened: true,
+  bioLength: 0,
+  isLogoutAlertVisible: false,
 };
 
 const appSlice = createSlice({
@@ -35,6 +37,18 @@ const appSlice = createSlice({
     toggleSettingsSidebar(state) {
       state.isSettingsSidebarOpened = !state.isSettingsSidebarOpened;
     },
+
+    setBioLength(state, action) {
+      state.bioLength = action.payload;
+    },
+
+    showLogoutAlert(state) {
+      state.isLogoutAlertVisible = true;
+    },
+
+    hideLogoutAlert(state) {
+      state.isLogoutAlertVisible = false;
+    },
   },
 });
 
@@ -46,4 +60,7 @@ export const {
   toggleIsDropdownVisible,
   closeDropdownMenu,
   toggleSettingsSidebar,
+  setBioLength,
+  showLogoutAlert,
+  hideLogoutAlert,
 } = appSlice.actions;

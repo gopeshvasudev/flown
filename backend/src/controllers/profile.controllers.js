@@ -38,7 +38,10 @@ const updateProfileDetailsHandler = async (req, res) => {
     await user.save();
     return res.status(200).json({
       success: true,
-      message: `${user.username} your profile updated successfully`,
+      message: `${
+        user.nickName || user.username
+      } your profile updated successfully`,
+      user,
     });
   } catch (error) {
     console.error(`Update profile details error: ${error.message}`);
