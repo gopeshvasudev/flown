@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
+import HttpError from "../utils/errorClass.js";
 
 const userSchema = new mongoose.Schema(
   {
@@ -19,9 +20,16 @@ const userSchema = new mongoose.Schema(
 
     nickName: {
       type: String,
-      minLength: 3,
       maxLength: 30,
       trim: true,
+      validate: (value) => {
+        if (value.length > 0 && value.length < 3) {
+          throw new HttpError(
+            400,
+            "Nickname must be atleast 3 characters long"
+          );
+        }
+      },
     },
 
     email: {
@@ -53,7 +61,7 @@ const userSchema = new mongoose.Schema(
       lowercase: true,
       validate(value) {
         if (!["male", "female", "others"].includes(value)) {
-          throw new Error("Gender must be male, female or others");
+          throw new HttpError(400, "Gender must be male, female or others");
         }
       },
     },

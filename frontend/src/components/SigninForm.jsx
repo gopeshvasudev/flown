@@ -70,6 +70,7 @@ const SigninForm = () => {
           type="email"
           {...register("email", { required: "Email is required" })}
           placeholder="Email"
+          autoComplete="off"
           className="p-2 bg-transparent border-b border-zinc-700 focus:border-white outline-none"
         />
         {errors.email && (
@@ -81,6 +82,7 @@ const SigninForm = () => {
             type={!isSigninPasswordViewable ? "password" : "text"}
             {...register("password", { required: "Password is required" })}
             placeholder="Password"
+            autoComplete="off"
             className="w-full p-2 bg-transparent outline-none focus:border-white"
           />
 

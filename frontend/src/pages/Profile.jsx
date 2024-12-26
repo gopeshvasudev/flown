@@ -12,7 +12,7 @@ const Profile = () => {
 
   return (
     <section className="w-full flex justify-center">
-      <div className="min-h-screen w-full md:w-[760px] flex items-center gap-5 flex-col pt-28 pb-5 px-2">
+      <div className="min-h-screen w-full md:w-[600px] flex items-center gap-5 flex-col pt-28 pb-5 px-2">
         <figure className="profile-picture w-[200px] h-[200px] md:w-[250px] md:h-[250px] rounded-3xl overflow-hidden bg-zinc-900 p-2">
           <div className="border-4 border-purple-500 w-full h-full overflow-hidden rounded-3xl">
             <img
@@ -31,7 +31,7 @@ const Profile = () => {
         </div>
 
         <div className="rounded-xl flex items-center gap-1 overflow-hidden">
-          <div className="p-4 bg-black text-xl flex items-center justify-center gap-3">
+          <div className="px-4 py-3 bg-black text-xl flex items-center justify-center gap-3">
             <span className="border-r border-zinc-600 pr-2 text-purple-400">
               {user?.gender === "male" && <IoMdMale />}
               {user?.gender === "female" && <IoMdFemale />}
@@ -41,7 +41,7 @@ const Profile = () => {
             <h6 className="text-white font-semibold">{user?.age}</h6>
           </div>
 
-          <div className="p-4 font-semibold bg-black text-xl flex items-center justify-center gap-3">
+          <div className="px-4 py-3 font-semibold bg-black text-xl flex items-center justify-center gap-3">
             <span className="text-purple-400 border-r border-zinc-600 pr-2">
               <PiDroneBold />
             </span>
@@ -50,10 +50,7 @@ const Profile = () => {
           </div>
         </div>
 
-        <div
-          id="diaries"
-          className="diaries w-full max-h-[600px] overflow-y-auto p-5 border-t border-b my-3 border-zinc-700 flex flex-wrap justify-center gap-4"
-        >
+        <div className="diaries scrollbar-none w-full max-h-[600px] overflow-y-auto p-5 border-t border-b border-zinc-800 flex flex-wrap justify-center gap-4">
           {/* <h6 className="text-center text-lg">No diary added yet!</h6> */}
           <Diary />
           <Diary />
@@ -61,8 +58,9 @@ const Profile = () => {
         </div>
 
         <div className="languages flex gap-2 flex-wrap justify-center">
-          <LanguageTag name={"Hindi"} />
-          <LanguageTag name={"English"} />
+          {user?.languages?.map((language) => (
+            <LanguageTag name={language} key={language} />
+          ))}
         </div>
       </div>
     </section>

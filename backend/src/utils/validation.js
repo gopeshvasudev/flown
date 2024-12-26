@@ -1,6 +1,6 @@
 import validator from "validator";
 import HttpError from "./errorClass.js";
-import { languagesList } from "../utils/constants.js";
+import { languagesList, interestsList } from "../utils/constants.js";
 
 const validateSignupData = (req) => {
   const { username, email, password, age, gender } = req.body;
@@ -54,8 +54,14 @@ const validateSignupData = (req) => {
 };
 
 const validateProfileEditData = (req) => {
-  const { bio, interests, genderPreference, agePreference, languages } =
-    req.body;
+  const {
+    nickName,
+    bio,
+    interests,
+    genderPreference,
+    agePreference,
+    languages,
+  } = req.body;
   const { age } = req.user;
 
   const sanitizedFields = [
@@ -74,6 +80,11 @@ const validateProfileEditData = (req) => {
     }
   });
 
+  //Nickname validation
+  if (nickName.length > 0 && nickName.length < 3) {
+    throw new HttpError(400, "Nickname must be atleast 3 characters long");
+  }
+
   //Bio Validation
   if (bio.length > 500) {
     throw new HttpError(400, "Bio must be less than 500 characters");
@@ -83,6 +94,12 @@ const validateProfileEditData = (req) => {
   if (interests.length > 5) {
     throw new HttpError(400, "Only five interests can add");
   }
+
+  interests.forEach((interest) => {
+    if (!interestsList.includes(interest)) {
+      throw new HttpError(400, `Invalid interest: ${interest}`);
+    }
+  });
 
   //Gender preference validation
   if (!["male", "female", "both"].includes(genderPreference)) {
@@ -97,8 +114,13 @@ const validateProfileEditData = (req) => {
     throw new HttpError(400, "From and To Age are required");
   }
   if (age >= 18) {
-    if (agePreference.fromAge < 18 || agePreference.toAge < 18) {
-      throw new HttpError(400, "Age preferences must be between 18");
+    if (
+      agePreference.fromAge < 18 ||
+      agePreference.fromAge > 60 ||
+      agePreference.toAge < 18 ||
+      agePreference.toAge > 60
+    ) {
+      throw new HttpError(400, "Age preferences must be between 18 to 60");
     }
   } else {
     if (
