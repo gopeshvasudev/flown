@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { toggleSettingsSidebar } from "../store/reducers/appSlice";
 import EditProfileForm from "../components/EditProfileForm";
 import EditUsernameForm from "../components/EditUsernameForm";
+import EditPasswordForm from "../components/EditPasswordForm";
 
 const Settings = () => {
   const dispatch = useDispatch();
@@ -50,7 +51,8 @@ const Settings = () => {
 
         <section className="scrollbar-none flex-1 px-2 pt-10 pb-2 overflow-hidden flex justify-center overflow-y-auto">
           {/* <EditProfileForm /> */}
-          <EditUsernameForm />
+          {/* <EditUsernameForm /> */}
+          <EditPasswordForm />
         </section>
       </div>
     </section>

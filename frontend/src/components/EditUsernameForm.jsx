@@ -71,7 +71,7 @@ const EditUsernameForm = () => {
 
             <button
               type="submit"
-              className="w-1/2 flex justify-center py-3 px-2 rounded-lg font-semibold bg-purple-500 text-black text-sm border-2 border-purple-500 duration-300 hover:text-zinc-200 hover:bg-transparent overflow-hidden"
+              className="w-1/2 flex justify-center py-3 px-2 rounded-lg font-semibold bg-purple-500 text-black text-sm border-2 border-purple-500 duration-300 hover:text-purple-400 hover:bg-transparent overflow-hidden"
             >
               Change
             </button>

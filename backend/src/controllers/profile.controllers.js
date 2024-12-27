@@ -85,6 +85,7 @@ const updateUsernameHandler = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "Username updated successfully",
+      user,
     });
   } catch (error) {
     console.error("Username edit error: " + error.message);
@@ -98,8 +99,7 @@ const updateUsernameHandler = async (req, res) => {
 
 const updatePasswordHandler = async (req, res) => {
   try {
-    const { _id } = req.user;
-    const user = await userModel.findById(_id);
+    const user = req.user;
 
     const { currentPassword, newPassword, confirmNewPassword } = req.body;
 
@@ -112,8 +112,6 @@ const updatePasswordHandler = async (req, res) => {
       currentPassword,
       user.password
     );
-
-    console.error(isValidPassword);
 
     if (!isValidPassword) {
       throw new HttpError(401, "Incorrect current password");
