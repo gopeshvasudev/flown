@@ -36,12 +36,10 @@ const App = () => {
 
   useEffect(() => {
     if (!user) {
-      navigate("/login");
+      if (token) getUserInfoHandler();
+      else navigate("/login");
     }
-    if (token) {
-      getUserInfoHandler();
-    }
-  }, [token]);
+  }, [token, user]);
 
   return (
     <>

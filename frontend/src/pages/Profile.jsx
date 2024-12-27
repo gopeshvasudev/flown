@@ -6,6 +6,7 @@ import { TbGenderTransgender } from "react-icons/tb";
 import LanguageTag from "../components/LanguageTag";
 import { PiDroneBold } from "react-icons/pi";
 import Diary from "../components/Diary";
+import BioContainer from "../components/BioContainer";
 
 const Profile = () => {
   const user = useSelector((store) => store.user.user);
@@ -49,6 +50,8 @@ const Profile = () => {
             <h6 className="text-white font-semibold">{user?.flownPoints}</h6>
           </div>
         </div>
+
+        <BioContainer bio={user?.bio} />
 
         <div className="diaries scrollbar-none w-full max-h-[600px] overflow-y-auto p-5 border-t border-b border-zinc-800 flex flex-wrap justify-center gap-4">
           {/* <h6 className="text-center text-lg">No diary added yet!</h6> */}
