@@ -99,7 +99,8 @@ const updateUsernameHandler = async (req, res) => {
 
 const updatePasswordHandler = async (req, res) => {
   try {
-    const user = req.user;
+    const { _id } = req.user;
+    const user = await userModel.findById(_id);
 
     const { currentPassword, newPassword, confirmNewPassword } = req.body;
 

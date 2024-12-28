@@ -8,6 +8,7 @@ const initialState = {
   isSettingsSidebarOpened: true,
   bioLength: 0,
   isLogoutAlertVisible: false,
+  whichFormIsVisible: "edit-profile",
 };
 
 const appSlice = createSlice({
@@ -49,6 +50,10 @@ const appSlice = createSlice({
     hideLogoutAlert(state) {
       state.isLogoutAlertVisible = false;
     },
+
+    setWhichFormIsVisible(state, action) {
+      state.whichFormIsVisible = action.payload;
+    },
   },
 });
 
@@ -63,4 +68,5 @@ export const {
   setBioLength,
   showLogoutAlert,
   hideLogoutAlert,
+  setWhichFormIsVisible,
 } = appSlice.actions;
