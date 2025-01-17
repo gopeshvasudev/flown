@@ -67,4 +67,27 @@ const sendConnectionRequestHandler = async (req, res) => {
   }
 };
 
+const getSendedConnectionRequestsHandler = async (req, res) => {
+  try {
+    const user = req.user;
+
+    const connectionRequests = await connectionModel
+      .find({ status: "send", fromUser: user._id })
+      .populate("toUser", "nickName username photoUrl");
+
+    return res.status(200).json({
+      success: true,
+      message: "Requests fetched successfully",
+      connectionRequests,
+    });
+  } catch (error) {
+    console.log("Get connection requests error: " + error.message);
+
+    return res.status(error.statusCode || 500).json({
+      success: false,
+      message: error.message || "Internal server error",
+    });
+  }
+};
+
 export { sendConnectionRequestHandler, getSendedConnectionRequestsHandler };
