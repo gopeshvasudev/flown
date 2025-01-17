@@ -4,73 +4,57 @@ import connectionModel from "../models/connection.models.js";
 
 const sendConnectionRequestHandler = async (req, res) => {
   try {
-    const user = req.user; // Current user
-    const { _id, genderPreference, agePreference } = user;
+    const user = req.user;
+    const { _id: userId, genderPreference, agePreference } = user;
     const { letterMessage } = req.body;
 
-    // 1. Validate genderPreference
-    if (!["male", "female", "both"].includes(genderPreference)) {
-      throw new HttpError(400, "Invalid gender preference");
-    }
-
-    // 2. Validate agePreference
-    if (!agePreference || !agePreference.fromAge || !agePreference.toAge) {
-      throw new HttpError(400, "Invalid age preference");
-    }
-
-    if (!letterMessage) {
-      throw new HttpError(401, "Message must not be empty");
-    }
-
-    // 3. Aggregate to find a random matching user
-    const [randomUser] = await userModel.aggregate([
-      {
-        $match: {
-          _id: { $ne: _id }, // Exclude current user
-          age: { $gte: agePreference.fromAge, $lte: agePreference.toAge },
-          $or: [
-            {
-              $and: [
-                { gender: genderPreference }, // Match mutual gender preference
-                { genderPreference: user.gender },
-              ],
-            },
-            { genderPreference: "both" },
-          ],
+    //Finding the users who matches the creteria
+    const users = await userModel
+      .find({
+        _id: { $ne: userId },
+        $or: [
+          {
+            $and: [
+              { gender: genderPreference },
+              { genderPreference: user.gender },
+            ],
+          },
+          { genderPreference: "both" },
+        ],
+        age: {
+          $gte: agePreference.fromAge,
+          $lte: agePreference.toAge,
         },
-      },
-      { $sample: { size: 1 } }, // Randomly pick one user
-    ]);
+      })
+      .select("_id agePreference");
 
-    if (!randomUser) {
-      throw new HttpError(404, "No suitable users found for connection.");
+    if (!users || users.length === 0) {
+      throw new HttpError(404, "No matching user found");
     }
 
-    const toUser = randomUser._id;
+    //Creating a random index and picking up the user according to that random index
+    const randomIndex = Math.floor(Math.random() * users.length);
+    let randomUser = users[randomIndex];
 
-    // 4. Check for existing connection
-    const existingConnection = await connectionModel.findOne({
-      $or: [
-        { fromUser: _id, toUser },
-        { fromUser: toUser, toUser: _id },
-      ],
-    });
-
-    if (existingConnection) {
-      throw new HttpError(400, "Connection request already sent.");
+    //Checking if the random user's age preference is matching the creteria or not.
+    if (
+      randomUser.agePreference.fromAge > user.age ||
+      randomUser.agePreference.toAge < user.age
+    ) {
+      throw new HttpError(404, "No matching user found");
     }
 
-    // 5. Create a connection request
+    //If everything goes well then creating a new connection request
     const newConnection = await connectionModel.create({
-      fromUser: _id,
-      toUser,
-      status: "pending",
+      fromUser: userId,
+      toUser: randomUser._id,
+      status: "send",
       letterMessage,
     });
 
     return res.status(200).json({
       success: true,
-      message: "Connection request sent successfully.",
+      message: "Letter send successfully",
       connection: newConnection,
     });
   } catch (error) {
@@ -83,4 +67,4 @@ const sendConnectionRequestHandler = async (req, res) => {
   }
 };
 
-export { sendConnectionRequestHandler };
+export { sendConnectionRequestHandler, getSendedConnectionRequestsHandler };
