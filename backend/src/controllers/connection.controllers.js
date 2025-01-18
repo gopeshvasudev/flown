@@ -10,7 +10,7 @@ const sendConnectionRequestHandler = async (req, res) => {
 
     //Validating the Letter's message
     if (!letterMessage || letterMessage === "") {
-      throw new HttpError(400, "Letter can't be empty");
+      throw new HttpError(400, "Letter cannot be empty");
     }
 
     if (letterMessage.length < 30 || letterMessage.length > 1111) {
