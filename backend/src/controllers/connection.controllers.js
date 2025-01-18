@@ -8,6 +8,15 @@ const sendConnectionRequestHandler = async (req, res) => {
     const { _id: userId, genderPreference, agePreference } = user;
     const { letterMessage } = req.body;
 
+    //Validating the Letter's message
+    if (!letterMessage || letterMessage === "") {
+      throw new HttpError(400, "Letter can't be empty");
+    }
+
+    if (letterMessage.length < 30 || letterMessage.length > 1111) {
+      throw new HttpError(400, "Letter's length must be between 30 to 1111");
+    }
+
     //Finding the users who matches the creteria
     const users = await userModel
       .find({
