@@ -1,4 +1,5 @@
 import React from "react";
+import LetterUserCard from "../components/LetterUserCard";
 
 const Letters = () => {
   return (
@@ -14,20 +15,55 @@ const Letters = () => {
           </button>
         </div>
 
-        <div className="scrollbar-none overflow-y-auto w-full h-full flex flex-col items-start gap-2 border border-zinc-700 rounded-lg p-2">
-          <div className="w-full rounded-xl bg-zinc-900 p-2 flex gap-4 items-start">
-            <figure className="w-[50px] h-[50px] rounded-xl bg-zinc-950 flex-shrink-0"></figure>
-
-            <div className="flex flex-col gap-2">
-              <h3 className="font-semibold text-purple-400 text-xl leading-none">
-                {"This is my third name bro"}
-              </h3>
-
-              <h6 className="text-sm leading-none text-zinc-200">
-                @{"username"}
-              </h6>
-            </div>
-          </div>
+        <div className="scrollbar-none overflow-y-auto w-full h-full flex flex-wrap items-start justify-center gap-2 border border-zinc-700 rounded-lg p-2">
+          <LetterUserCard
+            userInfo={{
+              imageUrl:
+                "https://icons.veryicon.com/png/o/miscellaneous/user-avatar/user-avatar-male-5.png",
+              nickName: "Nickname",
+              username: "username",
+            }}
+          />
+          <LetterUserCard
+            userInfo={{
+              imageUrl:
+                "https://icons.veryicon.com/png/o/miscellaneous/user-avatar/user-avatar-male-5.png",
+              nickName: "Random Nickname",
+              username: "username",
+            }}
+          />
+          <LetterUserCard
+            userInfo={{
+              imageUrl:
+                "https://icons.veryicon.com/png/o/miscellaneous/user-avatar/user-avatar-male-5.png",
+              nickName: "Nickname",
+              username: "username",
+            }}
+          />
+          <LetterUserCard
+            userInfo={{
+              imageUrl:
+                "https://icons.veryicon.com/png/o/miscellaneous/user-avatar/user-avatar-male-5.png",
+              nickName: "Random Nickname",
+              username: "username",
+            }}
+          />
+          <LetterUserCard
+            userInfo={{
+              imageUrl:
+                "https://icons.veryicon.com/png/o/miscellaneous/user-avatar/user-avatar-male-5.png",
+              nickName: "Nickname",
+              username: "username",
+            }}
+          />
+          <LetterUserCard
+            userInfo={{
+              imageUrl:
+                "https://icons.veryicon.com/png/o/miscellaneous/user-avatar/user-avatar-male-5.png",
+              nickName: "Nickname",
+              username: "username",
+            }}
+          />
         </div>
       </div>
     </section>
