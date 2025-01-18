@@ -1,6 +1,6 @@
 import { TiHome } from "react-icons/ti";
 import { IoChatbox } from "react-icons/io5";
-import { IoNotifications } from "react-icons/io5";
+import { IoMdMail } from "react-icons/io";
 import { RiUserFill } from "react-icons/ri";
 import { RiSettingsFill } from "react-icons/ri";
 import { FaUserCog } from "react-icons/fa";
@@ -19,9 +19,9 @@ const navLinksData = [
     path: "/chats",
   },
   {
-    name: "Requests",
-    icon: IoNotifications,
-    path: "/requests",
+    name: "Letters",
+    icon: IoMdMail,
+    path: "/letters",
   },
 ];
 
@@ -39,9 +39,9 @@ const profileNavLinksData = [
     isMainLink: true,
   },
   {
-    name: "Requests",
-    path: "/requests",
-    icon: IoNotifications,
+    name: "Letters",
+    path: "/letters",
+    icon: IoMdMail,
     isMainLink: true,
   },
   {

@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
-import axiosInstance from "../utils/axiosInstance";
 import { useNavigate } from "react-router-dom";
+
+import axiosInstance from "../utils/axiosInstance";
 
 const useSendConnectionHandler = () => {
   const [loading, setLoading] = useState(false);

@@ -1,10 +1,11 @@
 import { lazy, StrictMode, Suspense } from "react";
 import { createRoot } from "react-dom/client";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Provider } from "react-redux";
+
 import "./index.css";
 import App from "./App.jsx";
-import { Provider } from "react-redux";
 import store from "./store/store.js";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Errors from "./pages/Errors.jsx";
 
 const Home = lazy(() => import("./pages/Home.jsx"));
@@ -12,6 +13,7 @@ const Login = lazy(() => import("./pages/Login.jsx"));
 const Profile = lazy(() => import("./pages/Profile.jsx"));
 const Settings = lazy(() => import("./pages/Settings.jsx"));
 const SendLetter = lazy(() => import("./pages/SendLetter.jsx"));
+const Letters = lazy(() => import("./pages/Letters.jsx"));
 
 const router = createBrowserRouter([
   {
@@ -56,6 +58,14 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<h1>Fallback Loading....</h1>}>
             <SendLetter />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/letters",
+        element: (
+          <Suspense fallback={<h1>Fallback Loading....</h1>}>
+            <Letters />
           </Suspense>
         ),
       },
