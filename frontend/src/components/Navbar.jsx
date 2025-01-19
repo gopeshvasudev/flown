@@ -7,6 +7,8 @@ import {
   toggleIsDropdownVisible,
   showLogoutAlert,
 } from "../store/reducers/appSlice";
+
+import MyImage from "./MyImage";
 import LogoutAlert from "./LogoutAlert";
 
 const Navbar = () => {
@@ -55,10 +57,8 @@ const Navbar = () => {
               className="avatar-preview w-[38px] h-[38px] bg-zinc-900 rounded-xl overflow-hidden border-2 border-purple-500 cursor-pointer"
               onClick={() => dispatch(toggleIsDropdownVisible())}
             >
-              <img
-                className="w-full h-full object-cover"
-                src={user?.photoUrl}
-                alt={user?.username}
+              <MyImage
+                imageInfo={{ src: user?.photoUrl, alt: user?.username }}
               />
             </figure>
 

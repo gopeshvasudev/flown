@@ -1,12 +1,12 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { MdModeEdit } from "react-icons/md";
 import { IoMdFemale, IoMdMale } from "react-icons/io";
 import { TbGenderTransgender } from "react-icons/tb";
 import LanguageTag from "../components/LanguageTag";
 import { PiDroneBold } from "react-icons/pi";
 import Diary from "../components/Diary";
 import BioContainer from "../components/BioContainer";
+import MyImage from "../components/MyImage";
 
 const Profile = () => {
   const user = useSelector((store) => store.user.user);
@@ -16,17 +16,13 @@ const Profile = () => {
       <div className="min-h-screen w-full md:w-[600px] flex items-center gap-5 flex-col pt-28 pb-5 px-2">
         <figure className="profile-picture w-[200px] h-[200px] md:w-[250px] md:h-[250px] rounded-3xl overflow-hidden bg-zinc-900 p-2">
           <div className="border-4 border-purple-500 w-full h-full overflow-hidden rounded-3xl">
-            <img
-              src={user?.photoUrl}
-              className="w-full h-full object-cover"
-              alt={user?.nickName || user?.username}
-            />
+            <MyImage imageInfo={{ src: user?.photoUrl, alt: user?.username }} />
           </div>
         </figure>
 
         <div>
           <h1 className="text-3xl text-purple-400 text-center font-semibold tracking-tight">
-            {user?.nickName || "Nickname Needed!"}
+            {user?.nickName || "Nickname Explorer!"}
           </h1>
           <h6 className="text-sm text-center mt-1">@{user?.username}</h6>
         </div>
