@@ -9,6 +9,7 @@ import BioContainer from "../components/BioContainer";
 import MyImage from "../components/MyImage";
 
 const Profile = () => {
+  document.title = "Flown | Profile";
   const user = useSelector((store) => store.user.user);
 
   return (

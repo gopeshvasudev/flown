@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import useSendConnectionHandler from "../hooks/useSendConnectionHandler";
 
 const SendLetter = () => {
+  document.title = "Flown | Send letter";
+
   const {
     register,
     handleSubmit,

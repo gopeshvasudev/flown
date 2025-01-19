@@ -1,4 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
+import { useState } from "react";
 
 import {
   clearLetters,
@@ -6,7 +7,6 @@ import {
   setReceivedLetters,
 } from "../store/reducers/letterSlice";
 import axiosInstance from "../utils/axiosInstance";
-import { useState } from "react";
 
 const useFetchLetters = () => {
   const [loading, setLoading] = useState(false);
@@ -31,14 +31,13 @@ const useFetchLetters = () => {
       }
     } catch (error) {
       if (error && error.response && error.response.data) {
-        console.log(error.response.data)
         dispatch(clearLetters());
       }
     } finally {
       setLoading(false);
     }
   };
-
+  
   return { loading, handler };
 };
 

@@ -6,7 +6,6 @@ import axios from "axios";
 
 const Home = () => {
   document.title = "Flown | Homepage";
-  useRefreshTokenHandler();
 
   return (
     <>

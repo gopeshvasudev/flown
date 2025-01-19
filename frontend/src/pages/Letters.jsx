@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 
 import useFetchLetters from "../hooks/useFetchLetters";
 import LettersContainer from "../components/LettersContainer";
-import { LazyLoadComponent } from "react-lazy-load-image-component";
 
 const Letters = () => {
+  document.title = "Flown | Letters";
+
   const [requestType, setRequestType] = useState("sent");
 
   const { handler, loading } = useFetchLetters();
@@ -38,7 +39,9 @@ const Letters = () => {
         </div>
 
         {loading ? (
-          <div className="w-full h-full border border-zinc-700 rounded-lg"></div>
+          <div className="w-full h-full border border-zinc-700 rounded-lg">
+            <p className="text-center font-semibold">Loading....</p>
+          </div>
         ) : (
           <LettersContainer requestType={requestType} />
         )}

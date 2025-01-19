@@ -11,6 +11,8 @@ import EditUsernameForm from "../components/EditUsernameForm";
 import EditPasswordForm from "../components/EditPasswordForm";
 
 const Settings = () => {
+  document.title = "Flown | Settings";
+
   const dispatch = useDispatch();
   const whichFormIsVisible = useSelector(
     (store) => store.app.whichFormIsVisible
