@@ -79,10 +79,25 @@ const sendConnectionRequestHandler = async (req, res) => {
 const getSendedConnectionRequestsHandler = async (req, res) => {
   try {
     const user = req.user;
+    const { requestType } = req.params;
 
-    const connectionRequests = await connectionModel
-      .find({ status: "send", fromUser: user._id })
-      .populate("toUser", "nickName username photoUrl");
+    //Validating the request type
+    if (!["sent", "received"].includes(requestType)) {
+      throw new HttpError(400, `Invalid request type: ${requestType}`);
+    }
+
+    let connectionRequests;
+
+    //Fetching the connections according to request type
+    if (requestType === "sent") {
+      connectionRequests = await connectionModel
+        .find({ status: "send", fromUser: user._id })
+        .populate("toUser", "nickName username photoUrl");
+    } else if (requestType === "received") {
+      connectionRequests = await connectionModel
+        .find({ status: "send", toUser: user._id })
+        .populate("fromUser", "nickName username photoUrl");
+    }
 
     return res.status(200).json({
       success: true,

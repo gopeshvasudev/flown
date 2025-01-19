@@ -9,9 +9,12 @@ import {
 const router = express.Router();
 
 //Send connection request route
-router
-  .route("/send")
-  .post(authenticateUser, sendConnectionRequestHandler)
-  .get(authenticateUser, getSendedConnectionRequestsHandler);
+router.post("/send", authenticateUser, sendConnectionRequestHandler);
+
+router.get(
+  "/:requestType",
+  authenticateUser,
+  getSendedConnectionRequestsHandler
+);
 
 export default router;
