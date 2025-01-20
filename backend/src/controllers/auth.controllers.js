@@ -172,4 +172,36 @@ const logoutHandler = async (req, res) => {
   }
 };
 
-export { signupHandler, signinHandler, refreshTokenHandler, logoutHandler };
+const getCountryHandler = async (req, res) => {
+  try {
+    const geoLocationApiKey = process.env.GEOLOCATION_API_KEY;
+
+    const response = await fetch(
+      `https://api.ipgeolocation.io/ipgeo?apiKey=${geoLocationApiKey}`
+    );
+    const data = await response.json();
+
+    const { country_name, country_flag } = data;
+
+    return res.status(200).json({
+      success: true,
+      message: "Country details fetched successfully",
+      data: { country_name, country_flag },
+    });
+  } catch (error) {
+    console.log("get country details error: " + error.message);
+
+    return res.status(500).json({
+      success: false,
+      message: "Something went wrong while fetching the country details!",
+    });
+  }
+};
+
+export {
+  signupHandler,
+  signinHandler,
+  refreshTokenHandler,
+  logoutHandler,
+  getCountryHandler,
+};
