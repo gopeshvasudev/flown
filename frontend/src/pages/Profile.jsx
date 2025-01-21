@@ -23,7 +23,7 @@ const Profile = () => {
 
         <div>
           <h1 className="text-3xl text-purple-400 text-center font-semibold tracking-tight">
-            {user?.nickName || "Nickname Explorer!"}
+            {user?.nickName || "Flown Explorer"}
           </h1>
           <h6 className="text-sm text-center mt-1">@{user?.username}</h6>
         </div>

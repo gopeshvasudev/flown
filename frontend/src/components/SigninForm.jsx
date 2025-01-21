@@ -1,10 +1,8 @@
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
-import axiosInstance from "../utils/axiosInstance.js";
 
+import useHandleSignin from "../hooks/useHandleSignin";
 import {
   toggleIsSigninPasswordViewable,
   toggleIsSignin,
@@ -12,8 +10,6 @@ import {
 
 const SigninForm = () => {
   const dispatch = useDispatch();
-
-  const navigate = useNavigate();
 
   const {
     register,
@@ -26,29 +22,10 @@ const SigninForm = () => {
     (store) => store.app.isSigninPasswordViewable
   );
 
+  const handler = useHandleSignin();
+
   const submitHandler = async (data) => {
-    const { email, password } = data;
-    try {
-      const res = await axiosInstance.post("/api/v1/auth/signin", {
-        email,
-        password,
-      });
-
-      if (res.data.success) {
-        reset({
-          email: "",
-          password: "",
-        });
-
-        toast.success(res.data.message);
-
-        navigate("/");
-      }
-    } catch (error) {
-      if (error && error?.response && error?.response?.data) {
-        toast.error(error.response.data.message);
-      }
-    }
+    handler(data, reset);
   };
 
   return (
@@ -97,19 +74,19 @@ const SigninForm = () => {
           <p className="text-xs text-red-600">{errors.password.message}</p>
         )}
 
-        <p
-          className="text-center text-sm text-zinc-400 cursor-pointer my-2"
-          onClick={() => dispatch(toggleIsSignin())}
-        >
-          New to Flown? <span className="text-white">Sign up now</span>
-        </p>
-
         <button
           type="submit"
           className="bg-purple-500 text-black font-bold py-2 rounded-md border border-purple-400 hover:bg-transparent hover:text-purple-400 hover:shadow-[0px_0px_10px_#C026D3] duration-300 outline-none focus:bg-transparent focus:text-purple-400 focus:shadow-[0px_0px_10px_#C026D3]"
         >
           Sign In
         </button>
+
+        <p
+          className="text-center text-sm text-zinc-400 cursor-pointer"
+          onClick={() => dispatch(toggleIsSignin())}
+        >
+          New to Flown? <span className="text-white">Sign up now</span>
+        </p>
       </form>
     </div>
   );

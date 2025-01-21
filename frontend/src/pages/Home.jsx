@@ -2,10 +2,10 @@ import { useEffect } from "react";
 import { IoIosPaperPlane } from "react-icons/io";
 import { Link } from "react-router-dom";
 import useRefreshTokenHandler from "../hooks/useRefreshTokenHandler";
-import axios from "axios";
 
 const Home = () => {
   document.title = "Flown | Homepage";
+  useRefreshTokenHandler();
 
   return (
     <>

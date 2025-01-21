@@ -2,13 +2,13 @@ import React from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
-import axiosInstance from "../utils/axiosInstance.js";
+
 import {
   toggleIsSignupPasswordViewable,
   toggleIsSignin,
 } from "../store/reducers/appSlice";
+import useGetCountryDetails from "../hooks/useGetCountryDetails.js";
+import useHandleSignup from "../hooks/useHandleSignup.js";
 
 const SignupForm = () => {
   const dispatch = useDispatch();
@@ -24,39 +24,11 @@ const SignupForm = () => {
     formState: { errors },
   } = useForm();
 
-  const navigate = useNavigate("/");
+  const countryDetails = useGetCountryDetails();
+  const handler = useHandleSignup();
 
-  const submitHandler = async (data) => {
-    try {
-      const { username, email, password, age, gender } = data;
-
-      const res = await axiosInstance.post("/api/v1/auth/signup", {
-        username,
-        email,
-        password,
-        age,
-        gender,
-      });
-
-      if (res.data.success) {
-        reset({
-          username: "",
-          email: "",
-          password: "",
-          age: "",
-          gender: "",
-        });
-
-        toast.success(res.data.message);
-
-        navigate("/");
-      }
-    } catch (error) {
-      console.log(error);
-      if (error && error?.response && error?.response?.data) {
-        toast.error(error?.response?.data?.message);
-      }
-    }
+  const submitHandler = (data) => {
+    handler(data, reset);
   };
 
   return (
@@ -177,20 +149,20 @@ const SignupForm = () => {
           <p className="text-xs text-red-600">{errors.gender.message}</p>
         )}
 
-        <p
-          className="text-center text-sm text-zinc-400 cursor-pointer my-2"
-          onClick={() => dispatch(toggleIsSignin())}
-        >
-          Already have an account?{" "}
-          <span className="text-white">Sign in now</span>
-        </p>
-
         <button
           type="submit"
           className="bg-purple-500 text-black font-bold py-2 rounded-md border border-purple-400 hover:bg-transparent hover:text-purple-400 hover:shadow-[0px_0px_10px_#C026D3] duration-300 outline-none focus:bg-transparent focus:text-purple-400 focus:shadow-[0px_0px_10px_#C026D3]"
         >
           Sign Up
         </button>
+
+        <p
+          className="text-center text-sm text-zinc-400 cursor-pointer"
+          onClick={() => dispatch(toggleIsSignin())}
+        >
+          Already have an account?{" "}
+          <span className="text-white">Sign in now</span>
+        </p>
       </form>
     </div>
   );

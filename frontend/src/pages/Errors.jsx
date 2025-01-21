@@ -8,11 +8,11 @@ const Errors = () => {
     <section className="w-full h-screen flex flex-col items-center justify-center gap-10 bg-zinc-950 text-white">
       <div>
         <h1 className="text-8xl font-bold text-purple-400 text-center">
-          {errors?.status}
+          {errors?.status || 500}
         </h1>
 
         <h2 className="text-6xl font-semibold text-center">
-          {errors?.statusText}
+          {errors?.statusText || "Internal Server Error"}
         </h2>
       </div>
 

@@ -11,7 +11,7 @@ const LetterUserCard = ({ userInfo }) => {
 
       <div className="flex flex-col gap-2 items-center">
         <h3 className="font-semibold text-purple-400 text-xl leading-[1.1] text-center">
-          {nickName}
+          {nickName || "Flown Explorer"}
         </h3>
 
         <h6 className="text-xs leading-none text-zinc-200 font-light text-center">
