@@ -7,7 +7,6 @@ const Letters = () => {
   document.title = "Flown | Letters";
 
   const [requestType, setRequestType] = useState("sent");
-
   const { handler, loading } = useFetchLetters();
 
   const typeHandler = (requestType) => {
@@ -16,7 +15,7 @@ const Letters = () => {
   };
 
   useEffect(() => {
-    if (requestType) typeHandler("sent");
+    typeHandler("sent");
   }, []);
 
   return (
