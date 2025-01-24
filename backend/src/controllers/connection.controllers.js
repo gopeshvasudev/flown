@@ -114,4 +114,39 @@ const getSendedConnectionRequestsHandler = async (req, res) => {
   }
 };
 
-export { sendConnectionRequestHandler, getSendedConnectionRequestsHandler };
+const sendConnectionResponseHandler = async (req, res) => {
+  try {
+    const { requestType, requestId } = req.params;
+
+    if (!["accepted", "rejected"].includes(requestType)) {
+      throw new HttpError(400, `Invalid request type: ${requestType}`);
+    }
+
+    const updatedRequest = await connectionModel.findByIdAndUpdate(requestId, {
+      status: requestType,
+    });
+
+    if (!updatedRequest) {
+      throw new HttpError(404, "Connection request not found.");
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Request updated successfully",
+      updatedRequest,
+    });
+  } catch (error) {
+    console.log("send connection response error: " + error.message);
+
+    return res.status(error.statusCode || 500).json({
+      success: false,
+      message: error.message || "Internal server error",
+    });
+  }
+};
+
+export {
+  sendConnectionRequestHandler,
+  getSendedConnectionRequestsHandler,
+  sendConnectionResponseHandler,
+};
