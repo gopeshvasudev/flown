@@ -20,6 +20,11 @@ const connectionSchema = new mongoose.Schema(
       },
     },
 
+    isStatusUpdatedOnce: {
+      type: Boolean,
+      default: false,
+    },
+
     letterMessage: {
       type: String,
       required: true,
