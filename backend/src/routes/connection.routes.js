@@ -5,12 +5,13 @@ import {
   getSendedConnectionRequestsHandler,
   sendConnectionRequestHandler,
   sendConnectionResponseHandler,
+  getAcceptedRequestsHandler,
 } from "../controllers/connection.controllers.js";
 
 const router = express.Router();
 
-//Send connection request route
-router.post("/send", authenticateUser, sendConnectionRequestHandler);
+// Get accepted letters
+router.get("/accepted", authenticateUser, getAcceptedRequestsHandler);
 
 //Get sent and received letters
 router.get(
@@ -18,6 +19,9 @@ router.get(
   authenticateUser,
   getSendedConnectionRequestsHandler
 );
+
+//Send connection request route
+router.post("/send", authenticateUser, sendConnectionRequestHandler);
 
 //Send connection response
 router.post(

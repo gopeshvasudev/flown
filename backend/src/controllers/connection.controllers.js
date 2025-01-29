@@ -151,8 +151,56 @@ const sendConnectionResponseHandler = async (req, res) => {
   }
 };
 
+const getAcceptedRequestsHandler = async (req, res) => {
+  try {
+    const user = req.user;
+
+    const acceptedRequests = await connectionModel
+      .find({
+        $or: [{ fromUser: user._id }, { toUser: user._id }],
+        status: "accepted",
+      })
+      .populate("fromUser toUser", "nickName username photoUrl");
+
+    let filteredRequests = [];
+
+    if (acceptedRequests.length > 0) {
+      filteredRequests = acceptedRequests.map((request) => {
+        const otherUser =
+          request.fromUser._id.toString() === user._id.toString()
+            ? request.toUser
+            : request.fromUser;
+
+        return {
+          _id: request._id,
+          user: {
+            _id: otherUser._id,
+            nickName: otherUser.nickName,
+            username: otherUser.username,
+            photoUrl: otherUser.photoUrl,
+          },
+        };
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Accepted requests fetched successfully",
+      connectionRequests: filteredRequests,
+    });
+  } catch (error) {
+    console.log("Get accepted requests error: " + error.message);
+
+    return res.status(error.statusCode || 500).json({
+      success: false,
+      message: error.message || "Internal server error",
+    });
+  }
+};
+
 export {
   sendConnectionRequestHandler,
   getSendedConnectionRequestsHandler,
   sendConnectionResponseHandler,
+  getAcceptedRequestsHandler,
 };
