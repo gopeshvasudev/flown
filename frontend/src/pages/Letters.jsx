@@ -24,14 +24,22 @@ const Letters = () => {
         <div className="flex items-center w-full gap-2">
           <button
             onClick={() => typeHandler("sent")}
-            className="w-1/2 px-2 py-3 bg-purple-500 text-black font-semibold text-sm rounded-lg hover:tracking-widest duration-300"
+            className={`w-1/2 px-2 py-3 bg-purple-500 font-semibold text-sm rounded-lg hover:tracking-widest duration-300 ${
+              requestType === "sent"
+                ? "tracking-widest text-white"
+                : "tracking-normal text-purple-900"
+            }`}
           >
             Sent letters
           </button>
 
           <button
             onClick={() => typeHandler("received")}
-            className="w-1/2 px-2 py-3 bg-purple-500 text-black font-semibold text-sm rounded-lg hover:tracking-widest duration-300"
+            className={`w-1/2 px-2 py-3 bg-purple-500 font-semibold text-sm rounded-lg hover:tracking-widest duration-300 ${
+              requestType === "received"
+                ? "tracking-widest text-white"
+                : "tracking-normal text-purple-900"
+            }`}
           >
             Received letters
           </button>

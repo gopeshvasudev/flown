@@ -3,14 +3,24 @@ import { Link, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import MyImage from "../components/MyImage";
+import useSendConnectionResponse from "../hooks/useSendConnectionResponse";
 
 const ViewLetter = () => {
   const [letter, setLetter] = useState(null);
-  const [loading, setLoading] = useState(false);
 
   const { letterType, letterId } = useParams();
   const receivedLetters = useSelector((store) => store.letter.receivedLetters);
   const sentLetters = useSelector((store) => store.letter.sentLetters);
+
+  const { handler, loading } = useSendConnectionResponse();
+
+  const rejectedResponseHandler = () => {
+    handler("rejected", letterId);
+  };
+
+  const acceptedResponseHandler = () => {
+    handler("accepted", letterId);
+  };
 
   useEffect(() => {
     let foundLetter = null;
@@ -69,19 +79,25 @@ const ViewLetter = () => {
           <p className="">{letter?.letterMessage}</p>
         </div>
 
-        <div className="buttons-container w-full flex items-center gap-2 px-2">
-          <button className="bg-transparent border-2 border-purple-500 py-2 px-2 w-1/2 rounded-lg font-medium hover:tracking-widest duration-300 flex items-center justify-center">
-            Reject
-          </button>
+        {letterType === "received" && (
+          <div className="buttons-container w-full flex items-center gap-2 px-2">
+            <button
+              onClick={rejectedResponseHandler}
+              className="bg-transparent border-2 border-purple-500 py-2 px-2 w-1/2 rounded-lg font-medium hover:tracking-widest duration-300 flex items-center justify-center text-sm"
+            >
+              Reject
+            </button>
 
-          <button
-            className={`bg-purple-500 border-2 border-purple-500 py-2 px-2 w-1/2 rounded-lg text-black font-bold hover:tracking-widest duration-300 flex items-center justify-center ${
-              loading && "opacity-70"
-            }`}
-          >
-            {loading ? "Loading..." : "Accept"}
-          </button>
-        </div>
+            <button
+              onClick={acceptedResponseHandler}
+              className={`bg-purple-500 border-2 border-purple-500 py-2 px-2 w-1/2 rounded-lg text-black font-bold hover:tracking-widest duration-300 flex items-center justify-center text-sm ${
+                loading && "opacity-70"
+              }`}
+            >
+              {loading ? "Loading..." : "Accept"}
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );
