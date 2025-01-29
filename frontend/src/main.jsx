@@ -15,6 +15,7 @@ const Settings = lazy(() => import("./pages/Settings.jsx"));
 const SendLetter = lazy(() => import("./pages/SendLetter.jsx"));
 const Letters = lazy(() => import("./pages/Letters.jsx"));
 const ViewLetter = lazy(() => import("./pages/ViewLetter.jsx"));
+const Chats = lazy(() => import("./pages/Chats.jsx"));
 
 const router = createBrowserRouter([
   {
@@ -75,6 +76,14 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<h1>Fallback Loading....</h1>}>
             <ViewLetter />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/chats",
+        element: (
+          <Suspense fallback={<h1>Fallback Loading....</h1>}>
+            <Chats />
           </Suspense>
         ),
       },
